@@ -1,0 +1,349 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8A280EB01FD8A37000B57653 /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A280EAF1FD8A37000B57653 /* database.swift */; };
+		8A36796C1FD8930500F0D286 /* MailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */; };
+		8A36796E1FD8935800F0D286 /* NewMailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A36796D1FD8935800F0D286 /* NewMailViewController.swift */; };
+		8A3679701FD893BD00F0D286 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A36796F1FD893BD00F0D286 /* TabBarController.swift */; };
+		8AABA3781FD8888900F559DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA3771FD8888900F559DA /* AppDelegate.swift */; };
+		8AABA37D1FD8888900F559DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AABA37B1FD8888900F559DA /* Main.storyboard */; };
+		8AABA3801FD8888900F559DA /* RetailChat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA37E1FD8888900F559DA /* RetailChat.xcdatamodeld */; };
+		8AABA3821FD8888900F559DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AABA3811FD8888900F559DA /* Assets.xcassets */; };
+		8AABA3851FD8888900F559DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AABA3831FD8888900F559DA /* LaunchScreen.storyboard */; };
+		8AABA38D1FD889DE00F559DA /* MailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA38C1FD889DE00F559DA /* MailViewController.swift */; };
+		8AABA38F1FD88A3600F559DA /* PRTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8A280EAF1FD8A37000B57653 /* database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
+		8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailsTableViewController.swift; sourceTree = "<group>"; };
+		8A36796D1FD8935800F0D286 /* NewMailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMailViewController.swift; sourceTree = "<group>"; };
+		8A36796F1FD893BD00F0D286 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		8AABA3741FD8888900F559DA /* RetailChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetailChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AABA3771FD8888900F559DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8AABA37C1FD8888900F559DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8AABA37F1FD8888900F559DA /* RetailChat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RetailChat.xcdatamodel; sourceTree = "<group>"; };
+		8AABA3811FD8888900F559DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8AABA3841FD8888900F559DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8AABA3861FD8888900F559DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AABA38C1FD889DE00F559DA /* MailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailViewController.swift; sourceTree = "<group>"; };
+		8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRTableViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8AABA3711FD8888900F559DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8AABA36B1FD8888900F559DA = {
+			isa = PBXGroup;
+			children = (
+				8AABA3761FD8888900F559DA /* RetailChat */,
+				8AABA3751FD8888900F559DA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8AABA3751FD8888900F559DA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8AABA3741FD8888900F559DA /* RetailChat.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8AABA3761FD8888900F559DA /* RetailChat */ = {
+			isa = PBXGroup;
+			children = (
+				8AABA38C1FD889DE00F559DA /* MailViewController.swift */,
+				8AABA3771FD8888900F559DA /* AppDelegate.swift */,
+				8AABA37B1FD8888900F559DA /* Main.storyboard */,
+				8A36796F1FD893BD00F0D286 /* TabBarController.swift */,
+				8A280EAF1FD8A37000B57653 /* database.swift */,
+				8A36796D1FD8935800F0D286 /* NewMailViewController.swift */,
+				8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */,
+				8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */,
+				8AABA3811FD8888900F559DA /* Assets.xcassets */,
+				8AABA3831FD8888900F559DA /* LaunchScreen.storyboard */,
+				8AABA3861FD8888900F559DA /* Info.plist */,
+				8AABA37E1FD8888900F559DA /* RetailChat.xcdatamodeld */,
+			);
+			path = RetailChat;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8AABA3731FD8888900F559DA /* RetailChat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8AABA3891FD8888900F559DA /* Build configuration list for PBXNativeTarget "RetailChat" */;
+			buildPhases = (
+				8AABA3701FD8888900F559DA /* Sources */,
+				8AABA3711FD8888900F559DA /* Frameworks */,
+				8AABA3721FD8888900F559DA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RetailChat;
+			productName = RetailChat;
+			productReference = 8AABA3741FD8888900F559DA /* RetailChat.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8AABA36C1FD8888900F559DA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = FIU;
+				TargetAttributes = {
+					8AABA3731FD8888900F559DA = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = D83APJ3N95;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 8AABA36F1FD8888900F559DA /* Build configuration list for PBXProject "RetailChat" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8AABA36B1FD8888900F559DA;
+			productRefGroup = 8AABA3751FD8888900F559DA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8AABA3731FD8888900F559DA /* RetailChat */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8AABA3721FD8888900F559DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AABA3851FD8888900F559DA /* LaunchScreen.storyboard in Resources */,
+				8AABA3821FD8888900F559DA /* Assets.xcassets in Resources */,
+				8AABA37D1FD8888900F559DA /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8AABA3701FD8888900F559DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A36796C1FD8930500F0D286 /* MailsTableViewController.swift in Sources */,
+				8AABA3781FD8888900F559DA /* AppDelegate.swift in Sources */,
+				8AABA3801FD8888900F559DA /* RetailChat.xcdatamodeld in Sources */,
+				8AABA38D1FD889DE00F559DA /* MailViewController.swift in Sources */,
+				8A3679701FD893BD00F0D286 /* TabBarController.swift in Sources */,
+				8A36796E1FD8935800F0D286 /* NewMailViewController.swift in Sources */,
+				8A280EB01FD8A37000B57653 /* database.swift in Sources */,
+				8AABA38F1FD88A3600F559DA /* PRTableViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8AABA37B1FD8888900F559DA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AABA37C1FD8888900F559DA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8AABA3831FD8888900F559DA /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AABA3841FD8888900F559DA /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8AABA3871FD8888900F559DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8AABA3881FD8888900F559DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8AABA38A1FD8888900F559DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = D83APJ3N95;
+				INFOPLIST_FILE = RetailChat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.fiu.cis.RetailChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		8AABA38B1FD8888900F559DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = D83APJ3N95;
+				INFOPLIST_FILE = RetailChat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.fiu.cis.RetailChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8AABA36F1FD8888900F559DA /* Build configuration list for PBXProject "RetailChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AABA3871FD8888900F559DA /* Debug */,
+				8AABA3881FD8888900F559DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8AABA3891FD8888900F559DA /* Build configuration list for PBXNativeTarget "RetailChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AABA38A1FD8888900F559DA /* Debug */,
+				8AABA38B1FD8888900F559DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8AABA37E1FD8888900F559DA /* RetailChat.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8AABA37F1FD8888900F559DA /* RetailChat.xcdatamodel */,
+			);
+			currentVersion = 8AABA37F1FD8888900F559DA /* RetailChat.xcdatamodel */;
+			path = RetailChat.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 8AABA36C1FD8888900F559DA /* Project object */;
+}
