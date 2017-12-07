@@ -17,9 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="glR-3W-bq2">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="Kdj-8r-yp9" id="Fmn-Xi-5M9"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UITableViewCell" textLabel="VBn-mk-K7f" style="IBUITableViewCellStyleDefault" id="hKM-Ec-eSS">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hKM-Ec-eSS" id="waX-vr-rsd">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -42,6 +50,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Product Requests" id="2SM-XU-9dw"/>
+                    <connections>
+                        <outlet property="searchField" destination="glR-3W-bq2" id="Qhe-b7-gXF"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kCP-Nj-WDL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -66,91 +77,6 @@
             </objects>
             <point key="canvasLocation" x="24.800000000000001" y="392.65367316341832"/>
         </scene>
-        <!--New Mail-->
-        <scene sceneID="4fq-tV-mse">
-            <objects>
-                <viewController id="m4E-ZV-jke" customClass="NewMailViewController" customModule="RetailChat" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="gA7-6g-yJx"/>
-                        <viewControllerLayoutGuide type="bottom" id="ol9-ax-0Nt"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="uew-kE-VjA">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter receiver's email here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A1L-hc-f23">
-                                <rect key="frame" x="128" y="97" width="241" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
-                                <connections>
-                                    <outlet property="delegate" destination="m4E-ZV-jke" id="dJw-qi-lb0"/>
-                                </connections>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YA5-Tq-mMN">
-                                <rect key="frame" x="6" y="102" width="114" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter object here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M6t-Fs-FB3">
-                                <rect key="frame" x="128" y="150" width="241" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="m4E-ZV-jke" id="a68-28-T3N"/>
-                                </connections>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Object" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6R2-5o-1i8">
-                                <rect key="frame" x="6" y="155" width="114" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter the body of the mail here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SMi-1N-aDc">
-                                <rect key="frame" x="6" y="256" width="353" height="359"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="m4E-ZV-jke" id="Y63-ye-h0p"/>
-                                </connections>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Body" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BA7-BZ-XEd">
-                                <rect key="frame" x="6" y="214" width="114" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="New Mail" id="Xyn-om-Nc5">
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="gYG-FY-ycx">
-                            <connections>
-                                <action selector="sendMail:" destination="m4E-ZV-jke" id="ZaN-Hu-9BD"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="bodyMailField" destination="SMi-1N-aDc" id="fkm-7a-PqY"/>
-                        <outlet property="destMailField" destination="A1L-hc-f23" id="A7q-GY-okV"/>
-                        <outlet property="objectMailField" destination="M6t-Fs-FB3" id="XUm-da-FBr"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="t33-Ml-epZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3980" y="-185"/>
-        </scene>
         <!--Mails-->
         <scene sceneID="C20-I6-D8w">
             <objects>
@@ -159,17 +85,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="1Ac-NV-Yb9">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
-                            <connections>
-                                <outlet property="delegate" destination="eSo-a5-JzS" id="Hd4-Br-NVP"/>
-                            </connections>
-                        </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UITableViewCell" textLabel="sW3-g6-flc" style="IBUITableViewCellStyleDefault" id="wz7-HA-2oN">
-                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wz7-HA-2oN" id="fth-aU-GD1">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -202,9 +120,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="searchField" destination="1Ac-NV-Yb9" id="HkW-A8-9El"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kLN-Oa-Vv8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -291,7 +206,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nHS-IJ-d8j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3982" y="588"/>
+            <point key="canvasLocation" x="3860" y="48"/>
         </scene>
         <!--Product Requests-->
         <scene sceneID="ght-pf-VVx">
@@ -332,24 +247,6 @@
             <point key="canvasLocation" x="953" y="48"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="CTq-ey-xEY">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TbC-2z-R4j" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pe0-bS-Lcs">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="m4E-ZV-jke" kind="relationship" relationship="rootViewController" id="j5Q-lW-Erz"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tJw-At-pjU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3041" y="-185"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="6z3-lI-QAI">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wij-C0-tfy" sceneMemberID="viewController">
@@ -365,7 +262,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KpM-Q6-9Pn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3041" y="588"/>
+            <point key="canvasLocation" x="2919" y="48"/>
         </scene>
     </scenes>
 </document>

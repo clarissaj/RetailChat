@@ -9,12 +9,10 @@
 import UIKit
 import MessageUI
 
-class MailsTableViewController: UITableViewController, UISearchBarDelegate, MFMailComposeViewControllerDelegate{
+class MailsTableViewController: UITableViewController, MFMailComposeViewControllerDelegate{
     
     @IBOutlet weak var searchField: UISearchBar!
     
-    var filteredData = [String]()
-    var isSearching = false
     let db = database.sharedInstance
     let composeVC  = MFMailComposeViewController()
     
@@ -26,29 +24,17 @@ class MailsTableViewController: UITableViewController, UISearchBarDelegate, MFMa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchField.returnKeyType = UIReturnKeyType.done
+        
     }
     
     // Function that gives the table view the number of rows to print, from the database containing mails
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isSearching{
-            return filteredData.count
-        }
         return 0
     }
     
     // Function that constructs the table view cells to display
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
-        
-        if isSearching{
-            // If we are searching, loads data from the data that matches the search
-            cell.textLabel?.text = filteredData[indexPath.row]
-        }
-        else{
-            // If we are not searching, loads data from the database
-            cell.textLabel?.text = db.getMail(atIndex: indexPath.row).object
-        }
         
         return cell
     }
@@ -67,25 +53,6 @@ class MailsTableViewController: UITableViewController, UISearchBarDelegate, MFMa
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.resignFirstResponder()
         return true
-    }
-    
-    // More functions are needed for the search bar
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text == nil || searchBar.text == ""{
-            isSearching = false
-            view.endEditing(true)
-            tableView.reloadData()
-        }
-        else{
-            filteredData.removeAll()
-            isSearching = true
-            let filteredMails = db.getMailArray().filter({($0.object?.lowercased())! == searchText.lowercased()})
-            for mail in filteredMails{
-                filteredData.append(mail.object!)
-            }
-            tableView.reloadData()
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
