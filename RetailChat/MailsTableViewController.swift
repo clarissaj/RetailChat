@@ -14,7 +14,7 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
     @IBOutlet weak var searchField: UISearchBar!
     
     let db = database.sharedInstance
-    let composeVC  = CustomMailComposeViewController()
+    var composeVC  : MFMailComposeViewController?
     
     var locationAlert = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
     var mailAccountAlert = UIAlertController(title: "Could Not access Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
@@ -22,7 +22,6 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         navigationItem.leftBarButtonItem = editButtonItem
-        composeVC.mailComposeDelegate = self
     }
     
     override func viewDidLoad() {
@@ -38,7 +37,6 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
         
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
-        composeVC.mailComposeDelegate = self
     }
     
     // Function that gives the table view the number of rows to print, from the database containing mails
@@ -85,20 +83,20 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
         }
     }
     
+    // Function called when we press on the button to compose a mail
     @IBAction func composeMail(_ sender: UIBarButtonItem) {
         if !MFMailComposeViewController.canSendMail(){
             present(mailAccountAlert, animated: true)
         }
         else{
-            composeVC.setSubject("")
-            composeVC.setMessageBody("", isHTML: false)
-            composeVC.setToRecipients(nil)
-            composeVC.setCcRecipients(nil)
-            composeVC.setBccRecipients(nil)
-            self.present(composeVC, animated: true)
+            composeVC = MFMailComposeViewController()
+            composeVC?.mailComposeDelegate = self
+            print(composeVC.debugDescription)
+            self.present(composeVC!, animated: true)
         }
     }
     
+    // Function called when either the Cancel or Send button on the ComposeView is pressed
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?){
         dismiss(animated: true, completion: nil)
     }
