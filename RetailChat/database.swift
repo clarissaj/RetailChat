@@ -7,13 +7,15 @@
 //
 
 import Foundation
+import CoreData
 
-final class database{
+final class database {
 
     static let sharedInstance = database()
     
     private var productRequestArray = [ProductRequests]()
     private var mailsArray = [Mail]()
+    //var managedObjectContext: NSManagedObjectContext? = nil
     
     private init(){}
     
@@ -47,4 +49,5 @@ final class database{
         
         // mailsArray.remove(at: atIndex) //Maybe not necessary with CoreData
     }
-}
+    
+    }
