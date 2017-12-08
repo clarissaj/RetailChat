@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8A280EB01FD8A37000B57653 /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A280EAF1FD8A37000B57653 /* database.swift */; };
 		8A36796C1FD8930500F0D286 /* MailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */; };
-		8A36796E1FD8935800F0D286 /* NewMailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A36796D1FD8935800F0D286 /* NewMailViewController.swift */; };
 		8A3679701FD893BD00F0D286 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A36796F1FD893BD00F0D286 /* TabBarController.swift */; };
 		8AABA3781FD8888900F559DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA3771FD8888900F559DA /* AppDelegate.swift */; };
 		8AABA37D1FD8888900F559DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AABA37B1FD8888900F559DA /* Main.storyboard */; };
@@ -23,7 +22,6 @@
 /* Begin PBXFileReference section */
 		8A280EAF1FD8A37000B57653 /* database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
 		8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailsTableViewController.swift; sourceTree = "<group>"; };
-		8A36796D1FD8935800F0D286 /* NewMailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMailViewController.swift; sourceTree = "<group>"; };
 		8A36796F1FD893BD00F0D286 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		8AABA3741FD8888900F559DA /* RetailChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetailChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AABA3771FD8888900F559DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,7 +69,6 @@
 				8AABA37B1FD8888900F559DA /* Main.storyboard */,
 				8A36796F1FD893BD00F0D286 /* TabBarController.swift */,
 				8A280EAF1FD8A37000B57653 /* database.swift */,
-				8A36796D1FD8935800F0D286 /* NewMailViewController.swift */,
 				8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */,
 				8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */,
 				8AABA3811FD8888900F559DA /* Assets.xcassets */,
@@ -160,7 +157,6 @@
 				8AABA3801FD8888900F559DA /* RetailChat.xcdatamodeld in Sources */,
 				8AABA38D1FD889DE00F559DA /* MailViewController.swift in Sources */,
 				8A3679701FD893BD00F0D286 /* TabBarController.swift in Sources */,
-				8A36796E1FD8935800F0D286 /* NewMailViewController.swift in Sources */,
 				8A280EB01FD8A37000B57653 /* database.swift in Sources */,
 				8AABA38F1FD88A3600F559DA /* PRTableViewController.swift in Sources */,
 			);

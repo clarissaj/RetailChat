@@ -24,8 +24,8 @@ final class database {
     
     }
     
-    func getMailArray() -> [Mail]{
-        return mailsArray
+    func getPRArray() -> [ProductRequests]{
+        return productRequestArray
     }
     
     func getPRCount() -> Int{
