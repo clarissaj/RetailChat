@@ -38,7 +38,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         }
         else{
             // If we are not searching, loads data from the database
-            cell.textLabel?.text = db.getMail(atIndex: indexPath.row).object
+            cell.textLabel?.text = db.getMail(atIndex: indexPath.row).subject
         }
         return cell
     }

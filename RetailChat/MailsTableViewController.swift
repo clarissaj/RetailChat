@@ -14,6 +14,7 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
     @IBOutlet weak var searchField: UISearchBar!
     
     let db = database.sharedInstance
+    var alertController = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
     let composeVC  = MFMailComposeViewController()
     
     required init?(coder aDecoder: NSCoder) {
@@ -24,7 +25,15 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Checks the location of the user relatively to the work location, exit if they don't match
         
+        // If location != work location, alert and exit
+        if false{
+            alertController.addAction(UIAlertAction(title: "OK", style: .default/*, handler: {(_) in exit(0)}*/))
+            present(alertController, animated: true)
+        }
+        
+        // If we're here it means that we are at work, i.e. we can receive the emails
     }
     
     // Function that gives the table view the number of rows to print, from the database containing mails
@@ -63,7 +72,7 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
                 let mail = db.getMail(atIndex: row)
                 mailViewController.fromLabel.text = mail.from
                 mailViewController.toLabel.text = mail.to
-                mailViewController.objectLabel.text = mail.object
+                mailViewController.objectLabel.text = mail.subject
                 mailViewController.bodyLabel.text = mail.body
             }
         //case "createMail"?:
