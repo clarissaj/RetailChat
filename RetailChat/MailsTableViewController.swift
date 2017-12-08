@@ -14,8 +14,10 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
     @IBOutlet weak var searchField: UISearchBar!
     
     let db = database.sharedInstance
-    var alertController = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
-    let composeVC  = MFMailComposeViewController()
+    let composeVC  = CustomMailComposeViewController()
+    
+    var locationAlert = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
+    var mailAccountAlert = UIAlertController(title: "Could Not access Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -25,26 +27,29 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
+
         // Checks the location of the user relatively to the work location, exit if they don't match
         
         // If location != work location, alert and exit
         if false{
-            alertController.addAction(UIAlertAction(title: "OK", style: .default/*, handler: {(_) in exit(0)}*/))
-            present(alertController, animated: true)
+            present(locationAlert, animated: true)
         }
         
         // If we're here it means that we are at work, i.e. we can receive the emails
+        mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
+        composeVC.mailComposeDelegate = self
     }
     
     // Function that gives the table view the number of rows to print, from the database containing mails
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return db.getMailsCount()
     }
     
     // Function that constructs the table view cells to display
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
-        
+        cell.textLabel?.text = db.getMail(atIndex: indexPath.row).subject
         return cell
     }
     
@@ -75,19 +80,21 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
                 mailViewController.objectLabel.text = mail.subject
                 mailViewController.bodyLabel.text = mail.body
             }
-        //case "createMail"?:
-         //   break
         default:
             preconditionFailure("Unexpected segue identifier")
         }
     }
     
-    
     @IBAction func composeMail(_ sender: UIBarButtonItem) {
         if !MFMailComposeViewController.canSendMail(){
-            print("Mail services are not available.")
+            present(mailAccountAlert, animated: true)
         }
         else{
+            composeVC.setSubject("")
+            composeVC.setMessageBody("", isHTML: false)
+            composeVC.setToRecipients(nil)
+            composeVC.setCcRecipients(nil)
+            composeVC.setBccRecipients(nil)
             self.present(composeVC, animated: true)
         }
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F65FFC81FDA3D51003BEE76 /* CustomMailComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F65FFC71FDA3D51003BEE76 /* CustomMailComposeViewController.swift */; };
 		8A280EB01FD8A37000B57653 /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A280EAF1FD8A37000B57653 /* database.swift */; };
 		8A36796C1FD8930500F0D286 /* MailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */; };
 		8A3679701FD893BD00F0D286 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A36796F1FD893BD00F0D286 /* TabBarController.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F65FFC71FDA3D51003BEE76 /* CustomMailComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMailComposeViewController.swift; sourceTree = "<group>"; };
 		8A280EAF1FD8A37000B57653 /* database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
 		8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailsTableViewController.swift; sourceTree = "<group>"; };
 		8A36796F1FD893BD00F0D286 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				8A36796F1FD893BD00F0D286 /* TabBarController.swift */,
 				8A280EAF1FD8A37000B57653 /* database.swift */,
 				8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */,
+				3F65FFC71FDA3D51003BEE76 /* CustomMailComposeViewController.swift */,
 				8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */,
 				8AABA3811FD8888900F559DA /* Assets.xcassets */,
 				8AABA3831FD8888900F559DA /* LaunchScreen.storyboard */,
@@ -155,6 +158,7 @@
 				8A36796C1FD8930500F0D286 /* MailsTableViewController.swift in Sources */,
 				8AABA3781FD8888900F559DA /* AppDelegate.swift in Sources */,
 				8AABA3801FD8888900F559DA /* RetailChat.xcdatamodeld in Sources */,
+				3F65FFC81FDA3D51003BEE76 /* CustomMailComposeViewController.swift in Sources */,
 				8AABA38D1FD889DE00F559DA /* MailViewController.swift in Sources */,
 				8A3679701FD893BD00F0D286 /* TabBarController.swift in Sources */,
 				8A280EB01FD8A37000B57653 /* database.swift in Sources */,

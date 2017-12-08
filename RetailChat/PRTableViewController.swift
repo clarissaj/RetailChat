@@ -43,8 +43,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         return cell
     }
     
-    // More functions are needed for the search bar
-    
+    // Main delegate function for the search bar, filters the data in the table view using the entered string
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text == nil || searchBar.text == ""{
             isSearching = false
