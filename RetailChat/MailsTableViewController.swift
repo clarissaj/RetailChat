@@ -11,8 +11,6 @@ import MessageUI
 
 class MailsTableViewController: UITableViewController, MFMailComposeViewControllerDelegate{
     
-    @IBOutlet weak var searchField: UISearchBar!
-    
     let db = database.sharedInstance
     var composeVC  : MFMailComposeViewController?
     
