@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FD939101FDF259F009CD67C /* ComposeMailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD9390F1FDF259F009CD67C /* ComposeMailController.swift */; };
 		6B6097F51FDE645C008D7D62 /* PRDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6097F41FDE645C008D7D62 /* PRDataSource.swift */; };
 		8A280EB01FD8A37000B57653 /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A280EAF1FD8A37000B57653 /* database.swift */; };
 		8A36796C1FD8930500F0D286 /* MailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */; };
@@ -20,68 +21,8 @@
 		8AABA38F1FD88A3600F559DA /* PRTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		3F9170C01FDA8CA200B42E8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C64EA537169E772200778456;
-			remoteInfo = "static mailcore2 osx";
-		};
-		3F9170C21FDA8CA200B42E8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C6BA2C191705F4E6003F0E9E;
-			remoteInfo = "static mailcore2 ios";
-		};
-		3F9170C41FDA8CA200B42E8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C64EA78C169F259200778456;
-			remoteInfo = tests;
-		};
-		3F9170C61FDA8CA200B42E8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C6A81B911706840C00882C15;
-			remoteInfo = "test-ios";
-		};
-		3F9170C81FDA8CA200B42E8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C6BD288D170BD71100A91AC1;
-			remoteInfo = "mailcore osx";
-		};
-		3F9170CA1FDA8CA200B42E8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 27780C3A19CF9CD100C77E44;
-			remoteInfo = "mailcore ios";
-		};
-		3F9170CC1FDA8CA200B42E8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C6B5AE0219F630B3001352A6;
-			remoteInfo = unittest;
-		};
-		3F9170CE1FDA8CA200B42E8E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C600B6141A242C3F000728F1;
-			remoteInfo = unittestcpp;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		3F9170AE1FDA87E500B42E8E /* RetailChat-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RetailChat-Bridging-Header.h"; sourceTree = "<group>"; };
-		3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = mailcore2.xcodeproj; path = "mailcore2/build-mac/mailcore2.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		3FD9390F1FDF259F009CD67C /* ComposeMailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeMailController.swift; sourceTree = "<group>"; };
 		6B6097F41FDE645C008D7D62 /* PRDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRDataSource.swift; sourceTree = "<group>"; };
 		8A280EAF1FD8A37000B57653 /* database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
 		8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailsTableViewController.swift; sourceTree = "<group>"; };
@@ -108,27 +49,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3F9170B61FDA8CA200B42E8E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3F9170C11FDA8CA200B42E8E /* libMailCore.a */,
-				3F9170C31FDA8CA200B42E8E /* libMailCore-ios.a */,
-				3F9170C51FDA8CA200B42E8E /* tests */,
-				3F9170C71FDA8CA200B42E8E /* test-ios.app */,
-				3F9170C91FDA8CA200B42E8E /* MailCore.framework */,
-				3F9170CB1FDA8CA200B42E8E /* MailCore.framework */,
-				3F9170CD1FDA8CA200B42E8E /* unittest.xctest */,
-				3F9170CF1FDA8CA200B42E8E /* unittestcpp */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		8AABA36B1FD8888900F559DA = {
 			isa = PBXGroup;
 			children = (
 				8AABA3761FD8888900F559DA /* RetailChat */,
 				8AABA3751FD8888900F559DA /* Products */,
-				3F9170AE1FDA87E500B42E8E /* RetailChat-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,10 +68,10 @@
 		8AABA3761FD8888900F559DA /* RetailChat */ = {
 			isa = PBXGroup;
 			children = (
-				3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */,
 				8AABA38C1FD889DE00F559DA /* MailViewController.swift */,
 				8AABA3771FD8888900F559DA /* AppDelegate.swift */,
 				8AABA37B1FD8888900F559DA /* Main.storyboard */,
+				3FD9390F1FDF259F009CD67C /* ComposeMailController.swift */,
 				8A36796F1FD893BD00F0D286 /* TabBarController.swift */,
 				8A280EAF1FD8A37000B57653 /* database.swift */,
 				8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */,
@@ -167,9 +92,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8AABA3891FD8888900F559DA /* Build configuration list for PBXNativeTarget "RetailChat" */;
 			buildPhases = (
+				8B46528A7BE92C63E62AF950 /* [CP] Check Pods Manifest.lock */,
 				8AABA3701FD8888900F559DA /* Sources */,
 				8AABA3711FD8888900F559DA /* Frameworks */,
 				8AABA3721FD8888900F559DA /* Resources */,
+				3A8E552F3C5190AAEAD8F4A8 /* [CP] Embed Pods Frameworks */,
+				28856A3052708576D143BB6D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -209,77 +137,12 @@
 			mainGroup = 8AABA36B1FD8888900F559DA;
 			productRefGroup = 8AABA3751FD8888900F559DA /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 3F9170B61FDA8CA200B42E8E /* Products */;
-					ProjectRef = 3F9170B51FDA8CA200B42E8E /* mailcore2.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8AABA3731FD8888900F559DA /* RetailChat */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		3F9170C11FDA8CA200B42E8E /* libMailCore.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libMailCore.a;
-			remoteRef = 3F9170C01FDA8CA200B42E8E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3F9170C31FDA8CA200B42E8E /* libMailCore-ios.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libMailCore-ios.a";
-			remoteRef = 3F9170C21FDA8CA200B42E8E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3F9170C51FDA8CA200B42E8E /* tests */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = tests;
-			remoteRef = 3F9170C41FDA8CA200B42E8E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3F9170C71FDA8CA200B42E8E /* test-ios.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "test-ios.app";
-			remoteRef = 3F9170C61FDA8CA200B42E8E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3F9170C91FDA8CA200B42E8E /* MailCore.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = MailCore.framework;
-			remoteRef = 3F9170C81FDA8CA200B42E8E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3F9170CB1FDA8CA200B42E8E /* MailCore.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = MailCore.framework;
-			remoteRef = 3F9170CA1FDA8CA200B42E8E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3F9170CD1FDA8CA200B42E8E /* unittest.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = unittest.xctest;
-			remoteRef = 3F9170CC1FDA8CA200B42E8E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3F9170CF1FDA8CA200B42E8E /* unittestcpp */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = unittestcpp;
-			remoteRef = 3F9170CE1FDA8CA200B42E8E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8AABA3721FD8888900F559DA /* Resources */ = {
@@ -294,6 +157,57 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		28856A3052708576D143BB6D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RetailChat/Pods-RetailChat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3A8E552F3C5190AAEAD8F4A8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RetailChat/Pods-RetailChat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B46528A7BE92C63E62AF950 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RetailChat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8AABA3701FD8888900F559DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -305,6 +219,7 @@
 				8AABA3801FD8888900F559DA /* RetailChat.xcdatamodeld in Sources */,
 				8AABA38D1FD889DE00F559DA /* MailViewController.swift in Sources */,
 				8A3679701FD893BD00F0D286 /* TabBarController.swift in Sources */,
+				3FD939101FDF259F009CD67C /* ComposeMailController.swift in Sources */,
 				8A280EB01FD8A37000B57653 /* database.swift in Sources */,
 				8AABA38F1FD88A3600F559DA /* PRTableViewController.swift in Sources */,
 			);
@@ -438,7 +353,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.fiu.cis.RetailChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "RetailChat-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -455,7 +370,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = edu.fiu.cis.RetailChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "RetailChat-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

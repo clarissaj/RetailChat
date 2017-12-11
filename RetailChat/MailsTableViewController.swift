@@ -7,12 +7,10 @@
 //
 
 import UIKit
-import MessageUI
 
-class MailsTableViewController: UITableViewController, MFMailComposeViewControllerDelegate{
+class MailsTableViewController: UITableViewController{
     
     let db = database.sharedInstance
-    var composeVC  : MFMailComposeViewController?
     
     var locationAlert = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
     var mailAccountAlert = UIAlertController(title: "Could Not access Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
@@ -35,6 +33,7 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
         
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
+        getNewMails()
     }
     
     // Function that gives the table view the number of rows to print, from the database containing mails
@@ -76,27 +75,36 @@ class MailsTableViewController: UITableViewController, MFMailComposeViewControll
                 mailViewController.objectLabel.text = mail.subject
                 mailViewController.bodyLabel.text = mail.body
             }
+        case "newMail"?:
+            let newMailController = segue.destination as! ComposeMailController
+            newMailController.cleanFields()
         default:
             preconditionFailure("Unexpected segue identifier")
         }
     }
     
-    // Function called when we press on the button to compose a mail
-    @IBAction func composeMail(_ sender: UIBarButtonItem) {
-        if !MFMailComposeViewController.canSendMail(){
-            present(mailAccountAlert, animated: true)
-        }
-        else{
-            composeVC = MFMailComposeViewController()
-            composeVC?.mailComposeDelegate = self
-            print(composeVC.debugDescription)
-            self.present(composeVC!, animated: true)
-        }
+    // Function that fetches new mails
+    func getNewMails(){
+        
     }
     
-    // Function called when either the Cancel or Send button on the ComposeView is pressed
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?){
-        dismiss(animated: true, completion: nil)
+    // Function that adds automatically an item in the product request view table of the user, based on the body of the mails he receives
+    func addProductRequestFromMail(_ body: String?){
+        if body == nil{
+            return
+        }
+        
+        do{
+            let regexProduct = try NSRegularExpression(pattern: "\\bProductRequest#(\\w+)\\b")
+            let regexDC = try NSRegularExpression(pattern: "\\bDC#(\\d+)\\b")
+            let nsString = body! as NSString
+            let productsInMail = regexProduct.matches(in: body!, range: NSRange(location: 0, length: nsString.length))
+            let dcInMails = regexDC.matches(in: body!, range: NSRange(location: 0, length: nsString.length))
+            // Now need to get the results as strings and add them by pair of PR/DC in the product request list
+        }
+        catch let error{
+            print("Invalid regex: \(error.localizedDescription)")
+        }
     }
 }
 

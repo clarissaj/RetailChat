@@ -58,6 +58,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         searchField.returnKeyType = UIReturnKeyType.done
+        navigationItem.leftBarButtonItem = editButtonItem
         tableView.delegate = self
         tableView.dataSource = self
     }
