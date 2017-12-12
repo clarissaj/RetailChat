@@ -11,7 +11,10 @@ import UIKit
 class MailsTableViewController: UITableViewController{
     
     let db = database.sharedInstance
-     let session = MCOIMAPSession()
+    // Imap session to fetch messages
+    let imapSession = MCOIMAPSession()
+    // Smtp session to send back automatically confirmation of delivery messages
+    let smtpSession = MCOSMTPSession()
     
     var locationAlert = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
     var mailAccountAlert = UIAlertController(title: "Could Not access Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
@@ -35,7 +38,8 @@ class MailsTableViewController: UITableViewController{
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
         
-        setupMailConnection()
+        loadImapConnection()
+        loadSmtpSession()
         getNewMails()
     }
     
@@ -86,57 +90,152 @@ class MailsTableViewController: UITableViewController{
         }
     }
     
-    // Function that setups the connection the the mail server
-    func setupMailConnection(){
+    // Function that setups the connection the the imap mail server
+    func loadImapConnection(){
         
-        session.hostname = "imap.gmail.com"
-        session.username = "cj13bestbuy@gmail.com"
-        session.password = "bestbuytest"
-        session.port = 993
-        session.connectionType = MCOConnectionType.TLS
-        session.connectionLogger = {(connectionID, type, data) in
-            if data != nil {
-                if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
+        // Values to be loaded from CoreData
+        imapSession.hostname = "imap.gmail.com"
+        imapSession.username = "cj13bestbuy@gmail.com"
+        imapSession.password = "bestbuytest"
+        imapSession.port = 993
+        imapSession.authType = MCOAuthType.saslPlain
+        imapSession.connectionType = MCOConnectionType.TLS
+        imapSession.connectionLogger = {(connectionID, type, data) in
+            if data == nil {
+                print("Connection error while setting IMAP session")
+                //if NSString(data: data!, encoding: String.Encoding.utf8.rawValue) != nil{
                     //print("Connectionlogger: \(string)")
-                }
+                //}
             }
         }
     }
     
-    // Function that fetches new mails
-    func getNewMails(){
-        print(UINT64_MAX)
-        let uidSet = MCOIndexSet()
+    // Function that setups the connection the the smtp mail server
+    func loadSmtpSession(){
+        // Values to be loaded from Core Data
+        smtpSession.hostname = "smtp.gmail.com"
+        smtpSession.username = "cj13bestbuy@gmail.com"
+        smtpSession.password = "bestbuytest"
+        smtpSession.port = 465
         
-        let requestKind = MCOIMAPMessagesRequestKind.fullHeaders
-        var operation = session.fetchMessagesOperation(withFolder: "INBOX", requestKind: requestKind, uids: uidSet)
-        
-        //let fetchOp = session.fetchMessagesByUIDOperation(withFolder: "INBOX", requestKind: MCOIMAPMessagesRequestKind.fullHeaders, uids: uidSet)
-        
-        let test = session.fetchAllFoldersOperation()
-        test?.start({(error: Error?, data: [Any]?) in
-            print(data!)
-        })
-
-        operation?.start { (err, msg, vanished) -> Void in
-            print("error from server \(err)")
-            print("fetched \(msg?.count) messages")
+        smtpSession.authType = MCOAuthType.saslPlain
+        smtpSession.connectionType = MCOConnectionType.TLS
+        smtpSession.connectionLogger = {(connectionID, type, data) in
+            if data == nil {
+                print("Connection error while setting SMTP session")
+                //if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
+                //    print("Connectionlogger: \(string)")
+                //}
+            }
         }
     }
     
-    // Function that adds automatically an item in the product request view table of the user, based on the body of the mails he receives
+    // Function that fetches mails, gets the header and the body
+    func getNewMails(){
+        let uidSet = MCOIndexSet()
+        uidSet.add(MCORange(location: 1, length: UINT64_MAX))
+        
+        let requestKind = MCOIMAPMessagesRequestKind.headers
+        let operation = imapSession.fetchMessagesOperation(withFolder: "INBOX", requestKind: requestKind, uids: uidSet)
+        
+        operation?.start { (err, msg, vanished) -> Void in
+            print("errors from server \(String(describing: err ?? nil))")
+            print("fetched \(msg!.count) messages")
+            let arrayOfMessages = msg as! [MCOIMAPMessage]
+            var messageParser : MCOMessageParser?
+            for message in arrayOfMessages{
+                let fetchBody = self.imapSession.fetchMessageOperation(withFolder: "INBOX", uid: message.uid)
+                fetchBody?.start({(error: Error?, data: Data?) in
+                    print("\nHEADER\n")
+                    print(message.header) // the header object contains all the fields in the header you need
+                    messageParser = MCOMessageParser(data: data!)
+                    print("BODY\n")
+                    print((messageParser!.plainTextBodyRendering())!) // plain body text
+                    
+                    // Check if the body of the mail contains a Product request mention and if so add it to the Product request list
+                    self.addProductRequestFromMail(messageParser!.plainTextBodyRendering())
+                    
+                    // For every incoming mail we also want to send an automatic delievery response, but we shouldn't answer if the mail was already auto-generated (i.e a we don't want to do an infinite loop of confirmation messages confirming each other)
+                    // The solution is to set a fixed Subject for automatic answers and to not reply if the incoming message has that subject header
+                    // Should do that only for the last, New messages tho and only once (else we will spam for one confirmation for each message received ever..)
+                    
+                    // To do that, we could fetch the existing mails received from Core Data, and make sure that if there is a match we don't do anything
+                    
+                    if message.header.subject != "AUTO-GENERATED: Delivery confirmation"{
+                        let builder = MCOMessageBuilder()
+                        builder.header.to = [message.header.from]
+                        builder.header.from = MCOAddress(displayName: self.smtpSession.username, mailbox: self.smtpSession.username)
+                        builder.header.subject = "AUTO-GENERATED: Delivery confirmation"
+                        builder.textBody = "This message has been generated automatically, please do not answer.\n\nYour mail has successfully been delivered to his recipient.\n\nThank you for your attention."
+                        
+                        let rfc822Data = builder.data()
+                        
+                        // Sends the mail
+                        let sendOperation = self.smtpSession.sendOperation(with: rfc822Data!)
+                        
+                        // Comment this for now because i did tests with my email and now i get spammed by my own implementation lol.
+                        /*
+                        sendOperation?.start { (error) -> Void in
+                            if (error != nil) {
+                                print("Error sending email: \(String(describing: error))")
+                            } else {
+                                print("Successfully sent email!")
+                            }
+                        }
+                        */
+                    }
+                })
+            }
+        }
+        
+        //let fetchOp = session.fetchMessagesByUIDOperation(withFolder: "INBOX", requestKind: MCOIMAPMessagesRequestKind.fullHeaders, uids: uidSet)
+        
+        //let test = session.fetchAllFoldersOperation()
+        //test?.start({(error: Error?, data: [Any]?) in
+       //     print(data!)
+       // })
+        
+        //let testFetch = MCOIMAPSearchExpression.search(from: "olivier.nappert@gmail.com")
+        //let testSearch = session.searchExpressionOperation(withFolder: "INBOX", expression: testFetch!)
+        
+       //testSearch?.start({(error: Error?, uidSet: MCOIndexSet?) in
+        //    print("error \(error)")
+        //    print("uidset \(uidSet)")
+        //})
+    }
+    
+    // Function that adds automatically an item in the product request tableview of the user, based on the body of the mails he receives
     func addProductRequestFromMail(_ body: String?){
         if body == nil{
             return
         }
         
         do{
-            let regexProduct = try NSRegularExpression(pattern: "\\bProductRequest#(\\w+)\\b")
-            let regexDC = try NSRegularExpression(pattern: "\\bDC#(\\d+)\\b")
+            // The body must contain ProductRequest#SomeNameHere\nDC#SomeNumberHere
+            let regex = try NSRegularExpression(pattern: "\\bProductRequest#(\\w+)\\nDC#(\\d+)\\b")
             let nsString = body! as NSString
-            let productsInMail = regexProduct.matches(in: body!, range: NSRange(location: 0, length: nsString.length))
-            let dcInMails = regexDC.matches(in: body!, range: NSRange(location: 0, length: nsString.length))
+            let matches = regex.matches(in: body!, range: NSRange(location: 0, length: nsString.length))
             // Now need to get the results as strings and add them by pair of PR/DC in the product request list
+            
+            var product : String? = nil
+            var dc : String? = nil
+            
+            // Gets the strings from the mail corresponding to the product and dc, stock them in the corresponding variables
+            for match in matches {
+                for n in 0..<match.numberOfRanges {
+                    let range = match.rangeAt(n)
+                    let r = body!.index(body!.startIndex, offsetBy: range.location)..<body!.index(body!.startIndex, offsetBy: range.location+range.length)
+                    print(body!.substring(with: r))
+                    n == 0 ? (product = body!.substring(with: r)) : (dc = body!.substring(with: r))
+                }
+            }
+            
+            // By now we can use the previous variables and add an item to the list of the product requests tableview
+            
+            if product != nil && dc != nil{
+                let productRequestTab = self.tabBarController!.viewControllers![1] as! PRTableViewController
+                productRequestTab.addNewItemFromMail(product,dc)
+            }
         }
         catch let error{
             print("Invalid regex: \(error.localizedDescription)")

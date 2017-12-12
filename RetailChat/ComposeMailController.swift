@@ -19,21 +19,7 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        smtpSession.hostname = "smtp.gmail.com"
-        smtpSession.username = "clarissajiminian@gmail.com"
-        smtpSession.password = "xxxxxxx"
-        smtpSession.port = 465
-        smtpSession.authType = MCOAuthType.saslPlain
-        smtpSession.connectionType = MCOConnectionType.TLS
-        smtpSession.connectionLogger = {(connectionID, type, data) in
-            if data != nil {
-                if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
-                    print("Connectionlogger: \(string)")
-                }
-            }
-        }
+        loadSmtpSession()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -45,9 +31,9 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
     @IBAction func sendMail(_ sender: UIBarButtonItem) {
         let builder = MCOMessageBuilder()
         builder.header.to = [MCOAddress(displayName: destField.text!, mailbox: destField.text!)]
-        builder.header.from = MCOAddress(displayName: "Matt R", mailbox: "matt@gmail.com")
+        builder.header.from = MCOAddress(displayName: smtpSession.username, mailbox: smtpSession.username)
         builder.header.subject = subjectField.text!
-        builder.htmlBody = bodyField.text!
+        builder.textBody = bodyField.text!
         
         let rfc822Data = builder.data()
         let sendOperation = smtpSession.sendOperation(with: rfc822Data!)
@@ -56,6 +42,25 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
                 print("Error sending email: \(String(describing: error))")
             } else {
                 print("Successfully sent email!")
+            }
+        }
+    }
+    
+    func loadSmtpSession(){
+        // Values to be loaded from Core Data
+        smtpSession.hostname = "smtp.gmail.com"
+        smtpSession.username = "cj13bestbuy@gmail.com"
+        smtpSession.password = "bestbuytest"
+        smtpSession.port = 465
+        
+        smtpSession.authType = MCOAuthType.saslPlain
+        smtpSession.connectionType = MCOConnectionType.TLS
+        smtpSession.connectionLogger = {(connectionID, type, data) in
+            if data == nil {
+                print("Connection error while setting SMTP session")
+                //if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
+                //    print("Connectionlogger: \(string)")
+                //}
             }
         }
     }
