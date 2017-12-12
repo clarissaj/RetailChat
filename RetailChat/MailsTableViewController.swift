@@ -11,6 +11,7 @@ import UIKit
 class MailsTableViewController: UITableViewController{
     
     let db = database.sharedInstance
+     let session = MCOIMAPSession()
     
     var locationAlert = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
     var mailAccountAlert = UIAlertController(title: "Could Not access Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
@@ -33,6 +34,8 @@ class MailsTableViewController: UITableViewController{
         
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
+        
+        setupMailConnection()
         getNewMails()
     }
     
@@ -83,9 +86,42 @@ class MailsTableViewController: UITableViewController{
         }
     }
     
+    // Function that setups the connection the the mail server
+    func setupMailConnection(){
+        
+        session.hostname = "imap.gmail.com"
+        session.username = "cj13bestbuy@gmail.com"
+        session.password = "bestbuytest"
+        session.port = 993
+        session.connectionType = MCOConnectionType.TLS
+        session.connectionLogger = {(connectionID, type, data) in
+            if data != nil {
+                if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
+                    //print("Connectionlogger: \(string)")
+                }
+            }
+        }
+    }
+    
     // Function that fetches new mails
     func getNewMails(){
+        print(UINT64_MAX)
+        let uidSet = MCOIndexSet()
         
+        let requestKind = MCOIMAPMessagesRequestKind.fullHeaders
+        var operation = session.fetchMessagesOperation(withFolder: "INBOX", requestKind: requestKind, uids: uidSet)
+        
+        //let fetchOp = session.fetchMessagesByUIDOperation(withFolder: "INBOX", requestKind: MCOIMAPMessagesRequestKind.fullHeaders, uids: uidSet)
+        
+        let test = session.fetchAllFoldersOperation()
+        test?.start({(error: Error?, data: [Any]?) in
+            print(data!)
+        })
+
+        operation?.start { (err, msg, vanished) -> Void in
+            print("error from server \(err)")
+            print("fetched \(msg?.count) messages")
+        }
     }
     
     // Function that adds automatically an item in the product request view table of the user, based on the body of the mails he receives
