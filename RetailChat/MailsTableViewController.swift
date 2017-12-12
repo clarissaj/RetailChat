@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Main class that shows received mails
 class MailsTableViewController: UITableViewController{
     
     let db = database.sharedInstance
