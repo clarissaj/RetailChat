@@ -16,26 +16,41 @@ class LocationManager: CLLocationManager, CLLocationManagerDelegate {
     }
     
     func enableLocationServices() {
-        switch CLLocationManager.authorizationStatus() {
-        case .notDetermined:
-            self.requestWhenInUseAuthorization()
-            break
-        case .authorizedWhenInUse:
-            self.requestWhenInUseAuthorization()
-            break
-        case .authorizedAlways:
-            self.requestAlwaysAuthorization()
-            break
-        default:
-            print("Error")
+        //print("entering function")
+        self.startUpdatingLocation()
+        if CLLocationManager.locationServicesEnabled() {
+            //print("entering if")
+            //CLLocationManager.requestWhenInUseAuthorization(self)
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined:
+                self.requestWhenInUseAuthorization()
+                break
+            case .authorizedWhenInUse:
+                self.requestWhenInUseAuthorization()
+                print("authorized when in use enabled")
+                break
+            case .authorizedAlways:
+                self.requestAlwaysAuthorization()
+                break
+            default:
+                print("Error")
+            }
+            self.startUpdatingLocation()
+            //self.requestLocation()
         }
     }
+        
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
+        print("Location Services unavaliable")
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        
+        print("authorization changed")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("new location data available")
+        print(locations.first!)
     }
 }
