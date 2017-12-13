@@ -12,26 +12,23 @@ import UIKit
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
     private let locManager = CLLocationManager()
-    //private var lattitude: Double!
-    //private var longitude: Double!
     private var geoFence: CLCircularRegion!
-    //var permissionDenied = false
-    //var startMonitoring = false
-    //var temp = MailsTableViewController(coder: <#NSCoder#>)!
     
     override init() {
         super.init()
         if CLLocationManager.locationServicesEnabled() {
             locManager.delegate = self
-            print("Entering location enabled if")
+            //print("Entering location enabled if")
             locManager.requestAlwaysAuthorization()
             locManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
             locManager.desiredAccuracy = kCLLocationAccuracyBest
             //geoFence = CLCircularRegion()
             if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
-                print("Entering isMonitoring if")
+                //print("Entering isMonitoring if")
                 let title = "FIU JCC LAB"
-                let coordinate = CLLocationCoordinate2D(latitude: 25.75880555, longitude: -80.37360633)
+                //let coordinate = CLLocationCoordinate2D(latitude: 25.787553, longitude: -80.380388)//Best buy Dolphin location
+                //let coordinate = CLLocationCoordinate2D(latitude: (locManager.location?.coordinate.latitude)!, longitude: (locManager.location?.coordinate.longitude)!) //about 25.78755300, -80.38038800 for my location in JCCL lab
+                let coordinate = CLLocationCoordinate2D(latitude: 25.75904, longitude: -80.373845)
                 let regionRadius = 20.0
             
             
@@ -50,14 +47,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        /*let alert = UIAlertController(title: "Error", message: "Unable to start location services.", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)*/
         print("Error starting location service")
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("location updating")
+        print(manager.location!)
+        //manager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -71,16 +67,34 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    //func checkToStartmonitoring() -> Bool {
-       // return startMonitoring
-    //}
-    
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("Within the region")
-        //temp.presentAlert()
+        print(manager.location!)
+        /*let alertController = UIAlertController(title: "region", message: "Within the region", preferredStyle: .alert)
+        //...
+        var rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        if let navigationController = rootViewController as? UINavigationController {
+            rootViewController = navigationController.viewControllers.first
+        }
+        if let tabBarController = rootViewController as? UITabBarController {
+            rootViewController = tabBarController.selectedViewController
+        }
+        rootViewController?.present(alertController, animated: true, completion: nil)
+        //temp.presentAlert()*/
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         print("Exited the region")
+        print(manager.location!)
+        /*let alertController = UIAlertController(title: "region", message: "exited the region", preferredStyle: .alert)
+        //...
+        var rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        if let navigationController = rootViewController as? UINavigationController {
+            rootViewController = navigationController.viewControllers.first
+        }
+        if let tabBarController = rootViewController as? UITabBarController {
+            rootViewController = tabBarController.selectedViewController
+        }
+        rootViewController?.present(alertController, animated: true, completion: nil)*/
     }
 }
