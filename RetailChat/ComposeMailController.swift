@@ -15,10 +15,13 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var subjectField: UITextField!
     @IBOutlet weak var bodyField: UITextField!
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var credentials = [Credentials]()
     let smtpSession = MCOSMTPSession()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getData()
         loadSmtpSession()
     }
     
@@ -47,10 +50,11 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
     }
     
     func loadSmtpSession(){
-        // Values to be loaded from Core Data
+        let cr = credentials[0]
+        
         smtpSession.hostname = "smtp.gmail.com"
-        smtpSession.username = "cj13bestbuy@gmail.com"
-        smtpSession.password = "bestbuytest"
+        smtpSession.username = cr.email
+        smtpSession.password = cr.password
         smtpSession.port = 465
         
         smtpSession.authType = MCOAuthType.saslPlain
@@ -77,6 +81,14 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func getData() {
+        do {
+            credentials = try context.fetch(Credentials.fetchRequest())
+        } catch {
+            print("Fetching Failed")
+        }
     }
     
 }

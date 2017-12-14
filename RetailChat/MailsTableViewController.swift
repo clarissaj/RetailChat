@@ -17,6 +17,9 @@ class MailsTableViewController: UITableViewController{
     // Smtp session to send back automatically confirmation of delivery messages
     let smtpSession = MCOSMTPSession()
     
+    var credentialsArray = [Credentials]()
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     var locationAlert = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
     var mailAccountAlert = UIAlertController(title: "Could Not access Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", preferredStyle: .alert)
     
@@ -39,9 +42,16 @@ class MailsTableViewController: UITableViewController{
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
         
+        getData()
         loadImapConnection()
         loadSmtpSession()
         getNewMails()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        tableView.reloadData()
     }
     
     // Function that gives the table view the number of rows to print, from the database containing mails
@@ -91,13 +101,14 @@ class MailsTableViewController: UITableViewController{
         }
     }
     
-    // Function that setups the connection the the imap mail server
+    // Function that setups the connection to the imap mail server
     func loadImapConnection(){
+        let cr = credentialsArray[0]
         
         // Values to be loaded from CoreData
         imapSession.hostname = "imap.gmail.com"
-        imapSession.username = "cj13bestbuy@gmail.com"
-        imapSession.password = "bestbuytest"
+        imapSession.username = cr.email
+        imapSession.password = cr.password
         imapSession.port = 993
         imapSession.authType = MCOAuthType.saslPlain
         imapSession.connectionType = MCOConnectionType.TLS
@@ -113,10 +124,12 @@ class MailsTableViewController: UITableViewController{
     
     // Function that setups the connection the the smtp mail server
     func loadSmtpSession(){
+        let cr = credentialsArray[0]
+        
         // Values to be loaded from Core Data
         smtpSession.hostname = "smtp.gmail.com"
-        smtpSession.username = "cj13bestbuy@gmail.com"
-        smtpSession.password = "bestbuytest"
+        smtpSession.username = cr.email
+        smtpSession.password = cr.password
         smtpSession.port = 465
         
         smtpSession.authType = MCOAuthType.saslPlain
@@ -240,6 +253,14 @@ class MailsTableViewController: UITableViewController{
         }
         catch let error{
             print("Invalid regex: \(error.localizedDescription)")
+        }
+    }
+    
+    func getData() {
+        do {
+            credentialsArray = try context.fetch(Credentials.fetchRequest())
+        } catch {
+            print("Fetching Failed")
         }
     }
 }
