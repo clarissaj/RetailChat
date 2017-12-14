@@ -15,14 +15,12 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var subjectField: UITextField!
     @IBOutlet weak var bodyField: UITextField!
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var credentials = [Credentials]()
-    let smtpSession = MCOSMTPSession()
+    let db = database.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getData()
-        loadSmtpSession()
+        db.getData()
+        db.loadSmtpSession()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -32,39 +30,32 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
     
     // Function triggered when the user press on the Send mail button
     @IBAction func sendMail(_ sender: UIBarButtonItem) {
+        if destField.isFirstResponder{
+            destField.resignFirstResponder()
+        }
+        else if subjectField.isFirstResponder{
+            subjectField.resignFirstResponder()
+        }
+        else if bodyField.isFirstResponder{
+            bodyField.resignFirstResponder()
+        }
         let builder = MCOMessageBuilder()
         builder.header.to = [MCOAddress(displayName: destField.text!, mailbox: destField.text!)]
-        builder.header.from = MCOAddress(displayName: smtpSession.username, mailbox: smtpSession.username)
+        builder.header.from = MCOAddress(displayName: db.getSmtpSession().username, mailbox: db.getSmtpSession().username)
         builder.header.subject = subjectField.text!
         builder.textBody = bodyField.text!
         
         let rfc822Data = builder.data()
-        let sendOperation = smtpSession.sendOperation(with: rfc822Data!)
+        let sendOperation = db.getSmtpSession().sendOperation(with: rfc822Data!)
         sendOperation?.start { (error) -> Void in
             if (error != nil) {
                 print("Error sending email: \(String(describing: error))")
             } else {
                 print("Successfully sent email!")
-            }
-        }
-    }
-    
-    func loadSmtpSession(){
-        let cr = credentials[0]
-        
-        smtpSession.hostname = "smtp.gmail.com"
-        smtpSession.username = cr.email
-        smtpSession.password = cr.password
-        smtpSession.port = 465
-        
-        smtpSession.authType = MCOAuthType.saslPlain
-        smtpSession.connectionType = MCOConnectionType.TLS
-        smtpSession.connectionLogger = {(connectionID, type, data) in
-            if data == nil {
-                print("Connection error while setting SMTP session")
-                //if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
-                //    print("Connectionlogger: \(string)")
-                //}
+                let mailSentAlert = UIAlertController(title: "Success", message: "Mail successfully sent.", preferredStyle: .alert)
+                mailSentAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {
+                    (_) in self.navigationController?.popViewController(animated: true)}))
+                self.present(mailSentAlert, animated: true)
             }
         }
     }
@@ -82,13 +73,4 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
         textField.resignFirstResponder()
         return true
     }
-    
-    func getData() {
-        do {
-            credentials = try context.fetch(Credentials.fetchRequest())
-        } catch {
-            print("Fetching Failed")
-        }
-    }
-    
 }

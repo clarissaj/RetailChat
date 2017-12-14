@@ -23,8 +23,8 @@ final class database {
     let imapSession = MCOIMAPSession()
     // Smtp session to send back automatically confirmation of delivery messages
     let smtpSession = MCOSMTPSession()
-    var smtpLoaded = False
-    var imapLoaded = False
+    var smtpLoaded = false
+    var imapLoaded = false
     
     private init(){
         getData()
@@ -176,7 +176,7 @@ final class database {
         getData()
     }
     
-    func saveMail(_ header: MCOMessageHeader, _ body: String){
+    func saveMail(_ uid: String, _ header: MCOMessageHeader, _ body: String) -> Bool{
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
         // Check first that the mail doesn't already exist in the fetched data here before adding
@@ -189,8 +189,8 @@ final class database {
         
         // If the mail is already in the array, we exit the function
         for element in mailsArray{
-            if element.messageID == header.messageID{
-                return
+            if (element.messageID) == uid{
+                return false
             }
         }
         
@@ -203,14 +203,20 @@ final class database {
         let mail = Mail(context : context)
         
         mail.to = headerToArray.last!
+        mail.to?.characters.removeLast()
+        mail.to? = (mail.to?.replacingOccurrences(of: "<", with: ""))!
+        mail.to? = (mail.to?.replacingOccurrences(of: ">", with: ""))!
         mail.from = headerFromArray.last!
+        mail.from?.characters.removeLast()
+        mail.from?.characters.removeFirst()
         mail.subject = header.subject
-        mail.messageID = header.messageID
+        mail.messageID = uid
         mail.body = body
         
         // Code to add, the data source & table view must stay in sync
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
         getData()
+        return true
     }
     
     func emptyMails() {

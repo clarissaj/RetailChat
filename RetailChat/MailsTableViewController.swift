@@ -15,7 +15,6 @@ class MailsTableViewController: UITableViewController{
     // object that checks the location of the user to see if he's at work or not
     var locationManager : LocationManager?
     
-    //var credentialsArray = [Credentials]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var locationAlert = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
@@ -43,7 +42,7 @@ class MailsTableViewController: UITableViewController{
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
 
-        db.emptyMails()
+        //db.emptyMails()
         db.loadImapConnection()
         db.loadSmtpSession()
     }
@@ -120,7 +119,7 @@ class MailsTableViewController: UITableViewController{
                 let fetchBody = self.db.getImapSession().fetchMessageOperation(withFolder: "INBOX", uid: message.uid)
                 fetchBody?.start({(error: Error?, data: Data?) in
                     messageParser = MCOMessageParser(data: data!)
-                    self.db.saveMail(message.header, messageParser!.plainTextBodyRendering()) // the header object contains all the fields in the header you need, next to it is the body
+                    let saved = self.db.saveMail(String(message.uid), message.header, messageParser!.plainTextBodyRendering()) // the header object contains all the fields in the header you need, next to it is the body
                     self.tableView.reloadData()
                     //print((messageParser!.plainTextBodyRendering())!) // plain body text
                     
@@ -135,7 +134,7 @@ class MailsTableViewController: UITableViewController{
                     
                     // To do that, we could fetch the existing mails received from Core Data, and make sure that if there is a match we don't do anything
                     
-                    if message.header.subject != "AUTO-GENERATED: Delivery confirmation"{
+                    if saved && message.header.subject != "AUTO-GENERATED: Delivery confirmation"{
                         let builder = MCOMessageBuilder()
                         builder.header.to = [message.header.from]
                         builder.header.from = MCOAddress(displayName: self.db.getSmtpSession().username, mailbox: self.db.getSmtpSession().username)
@@ -147,8 +146,6 @@ class MailsTableViewController: UITableViewController{
                         // Sends the mail
                         let sendOperation = self.db.getSmtpSession().sendOperation(with: rfc822Data!)
                         
-                        // Comment this for now because i did tests with my email and now i get spammed by my own implementation lol.
-                        /*
                         sendOperation?.start { (error) -> Void in
                             if (error != nil) {
                                 print("Error sending email: \(String(describing: error))")
@@ -156,7 +153,6 @@ class MailsTableViewController: UITableViewController{
                                 print("Successfully sent email!")
                             }
                         }
-                        */
                     }
                 })
             }
@@ -171,7 +167,7 @@ class MailsTableViewController: UITableViewController{
         
         do{
             // The body must contain ProductRequest#SomeNameHere\nDC#SomeNumberHere
-            let regex = try NSRegularExpression(pattern: "\\bProductRequest#([a-zA-Z0-9\\s])\\nDC#(\\d+)\\b")
+            let regex = try NSRegularExpression(pattern: "\\bProductRequest#([a-zA-Z0-9\\s]+)_DC#(\\d+)\\b")
             let nsString = body! as NSString
             let matches = regex.matches(in: body!, range: NSRange(location: 0, length: nsString.length))
             // Now need to get the results as strings and add them by pair of PR/DC in the product request list
@@ -185,15 +181,20 @@ class MailsTableViewController: UITableViewController{
                     let range = match.rangeAt(n)
                     let r = body!.index(body!.startIndex, offsetBy: range.location)..<body!.index(body!.startIndex, offsetBy: range.location+range.length)
                     print(body!.substring(with: r))
-                    n == 0 ? (product = body!.substring(with: r)) : (dc = body!.substring(with: r))
+                    if n == 1{
+                        product = body!.substring(with: r)
+                    }
+                    else if n == 2{
+                        dc = body!.substring(with: r)
+                    }
                 }
             }
             
             // By now we can use the previous variables and add an item to the list of the product requests tableview
-            
             if product != nil && dc != nil{
-                let productRequestTab = self.tabBarController!.viewControllers![1] as! PRTableViewController
-                productRequestTab.addNewItemFromMail(product,dc)
+                //let productRequestTab = self.tabBarController!.viewControllers![1] as! PRTableViewController
+                //productRequestTab.addNewItemFromMail(product,dc)
+                db.savePR(product, dc)
             }
         }
         catch let error{

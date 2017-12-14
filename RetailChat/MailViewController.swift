@@ -21,8 +21,28 @@ class MailViewController: UIViewController{
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
+        
+        //label border
+        fromLabel.layer.cornerRadius = 5
+        fromLabel.layer.borderWidth = 1
+        fromLabel.layer.borderColor = UIColor.black.cgColor
+        
+        //label border
+        toLabel.layer.cornerRadius = 5
+        toLabel.layer.borderWidth = 1
+        toLabel.layer.borderColor = UIColor.black.cgColor
+        
+        //label border
+        subjectLabel.layer.cornerRadius = 5
+        subjectLabel.layer.borderWidth = 1
+        subjectLabel.layer.borderColor = UIColor.black.cgColor
+        
+        //label border
+        bodyLabel.layer.cornerRadius = 5
+        bodyLabel.layer.borderWidth = 1
+        bodyLabel.layer.borderColor = UIColor.black.cgColor
     }
     
     override func viewWillAppear(_ animated: Bool) {

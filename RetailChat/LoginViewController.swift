@@ -14,8 +14,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var currentEmail: UILabel!
     @IBOutlet var emailField: UITextField!
     @IBOutlet var pwField: UITextField!
+    @IBOutlet var submitButton: UIButton!
     
     let db = database.sharedInstance
+    
+    override func loadView() {
+        super.loadView()
+        
+        submitButton.layer.cornerRadius = 5
+        submitButton.layer.borderWidth = 1
+        submitButton.layer.borderColor = UIColor.black.cgColor
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +36,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         } else {
             //if empty disable tabs that require user to be logged in
             if let arrayOfTabBarItems = tabBarController?.tabBar.items as AnyObject as? NSArray,
-                let mailsList = arrayOfTabBarItems[0] as? UITabBarItem, let prList = arrayOfTabBarItems[1] as? UITabBarItem{
+                let mailsList = arrayOfTabBarItems[0] as? UITabBarItem, let prList = arrayOfTabBarItems[1] as? UITabBarItem, let contactsList = arrayOfTabBarItems[2] as? UITabBarItem{
                 mailsList.isEnabled = false
                 prList.isEnabled = false
+                contactsList.isEnabled = false
             }
         }
     }
@@ -52,9 +62,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
             //enables tabs that require user to be logged in
             if let arrayOfTabBarItems = tabBarController?.tabBar.items as AnyObject as? NSArray,
-                let mailsList = arrayOfTabBarItems[0] as? UITabBarItem, let prList = arrayOfTabBarItems[1] as? UITabBarItem{
+                let mailsList = arrayOfTabBarItems[0] as? UITabBarItem, let prList = arrayOfTabBarItems[1] as? UITabBarItem, let contactsList = arrayOfTabBarItems[2] as? UITabBarItem{
                 mailsList.isEnabled = true
                 prList.isEnabled = true
+                contactsList.isEnabled = true
             }
             
             self.tabBarController?.selectedIndex = 0

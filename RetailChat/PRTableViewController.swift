@@ -65,7 +65,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 let dcText : String = (alert.textFields?[1].text)!
                 // Case where we have two textFields, otherwise more complicated:
                 builder.textBody = "This message has been generated automatically, please do not answer."
-                builder.textBody.append("\nProductRequest#\(productText)\nDC#\(dcText)\n")
+                builder.textBody.append("\nProductRequest#\(productText)_DC#\(dcText)\n")
                 builder.textBody.append("Thank you for your attention.")
                 
                 let rfc822Data = builder.data()
@@ -90,18 +90,10 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         present(alert, animated: true, completion: nil)
     }
     
-    // Function that adds a product to the product request list programmatically from information in a mail
-    func addNewItemFromMail(_ product: String?, _ dc: String?){
-        if product != nil && dc != nil{
-            
-            db.savePR(product, dc)
-            tableView.reloadData()
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        db.getData()
         tableView.reloadData()
     }
     
