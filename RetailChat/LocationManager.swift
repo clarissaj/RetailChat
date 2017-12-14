@@ -25,10 +25,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             //geoFence = CLCircularRegion()
             if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
                 //print("Entering isMonitoring if")
-                let title = "FIU JCC LAB"
-                //let coordinate = CLLocationCoordinate2D(latitude: 25.787553, longitude: -80.380388)//Best buy Dolphin location
+                let title = "Best Buy Mobile"
+                let coordinate = CLLocationCoordinate2D(latitude: 25.787553, longitude: -80.380388)//Best buy Dolphin location
                 //let coordinate = CLLocationCoordinate2D(latitude: (locManager.location?.coordinate.latitude)!, longitude: (locManager.location?.coordinate.longitude)!) //about 25.78755300, -80.38038800 for my location in JCCL lab
-                let coordinate = CLLocationCoordinate2D(latitude: 25.75904, longitude: -80.373845)
+                //let coordinate = CLLocationCoordinate2D(latitude: 25.75904, longitude: -80.373845)
                 let regionRadius = 20.0
             
             
@@ -53,7 +53,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("location updating")
         print(manager.location!)
-        //manager.stopUpdatingLocation()
+        manager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -70,8 +70,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         print("Within the region")
         print(manager.location!)
-        /*let alertController = UIAlertController(title: "region", message: "Within the region", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "region", message: "Within the region", preferredStyle: .alert)
         //...
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         var rootViewController = UIApplication.shared.keyWindow?.rootViewController
         if let navigationController = rootViewController as? UINavigationController {
             rootViewController = navigationController.viewControllers.first
@@ -80,14 +81,21 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             rootViewController = tabBarController.selectedViewController
         }
         rootViewController?.present(alertController, animated: true, completion: nil)
-        //temp.presentAlert()*/
+        //temp.presentAlert()
+        /*if let testRegion = region as? CLCircularRegion {
+            let identifier = testRegion.identifier
+            if identifier == "Best Buy Mobile" {
+                //allow access if within the geofence
+            }
+        }*/
     }
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         print("Exited the region")
         print(manager.location!)
-        /*let alertController = UIAlertController(title: "region", message: "exited the region", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "region", message: "exited the region", preferredStyle: .alert)
         //...
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
         var rootViewController = UIApplication.shared.keyWindow?.rootViewController
         if let navigationController = rootViewController as? UINavigationController {
             rootViewController = navigationController.viewControllers.first
@@ -95,6 +103,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if let tabBarController = rootViewController as? UITabBarController {
             rootViewController = tabBarController.selectedViewController
         }
-        rootViewController?.present(alertController, animated: true, completion: nil)*/
+        rootViewController?.present(alertController, animated: true, completion: nil)
+        /*if let testRegion = region as? CLCircularRegion {
+            let identifier = testRegion.identifier
+            if identifier == "Best Buy Mobile" {
+                //prevent access if not within the geofence
+            }
+        }*/
     }
 }
