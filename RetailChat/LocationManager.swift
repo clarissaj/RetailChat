@@ -20,7 +20,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             locManager.delegate = self
             //print("Entering location enabled if")
             locManager.requestAlwaysAuthorization()
-            locManager.distanceFilter = kCLLocationAccuracyBest
+            locManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
             locManager.desiredAccuracy = kCLLocationAccuracyBest
             //geoFence = CLCircularRegion()
             if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
@@ -39,22 +39,54 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 geoFence = region
                 //startMonitoring = true
                 locManager.startMonitoring(for: region)
+                //print(locManager.maximumRegionMonitoringDistance)
                 
             }
             else {
-                print("Can't track region")
+                let alertController = UIAlertController(title: "Error", message: "Error starting monitoring of region.", preferredStyle: .alert)
+                //...
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
+                var rootViewController = UIApplication.shared.keyWindow?.rootViewController
+                if let navigationController = rootViewController as? UINavigationController {
+                    rootViewController = navigationController.viewControllers.first
+                }
+                if let tabBarController = rootViewController as? UITabBarController {
+                    rootViewController = tabBarController.selectedViewController
+                }
+                rootViewController?.present(alertController, animated: true, completion: nil)
             }
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error starting location service")
+        let alertController = UIAlertController(title: "Error", message: "Cannot start location services.", preferredStyle: .alert)
+        //...
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
+        var rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        if let navigationController = rootViewController as? UINavigationController {
+            rootViewController = navigationController.viewControllers.first
+        }
+        if let tabBarController = rootViewController as? UITabBarController {
+            rootViewController = tabBarController.selectedViewController
+        }
+        rootViewController?.present(alertController, animated: true, completion: nil)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("location updating")
         print(manager.location!)
-        manager.stopUpdatingLocation()
+        //manager.stopUpdatingLocation()
+        let alertController = UIAlertController(title: "Update", message: "Location Updated", preferredStyle: .alert)
+        //...
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
+        var rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        if let navigationController = rootViewController as? UINavigationController {
+            rootViewController = navigationController.viewControllers.first
+        }
+        if let tabBarController = rootViewController as? UITabBarController {
+            rootViewController = tabBarController.selectedViewController
+        }
+        rootViewController?.present(alertController, animated: true, completion: nil)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -121,5 +153,19 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 //prevent access if not within the geofence
             }
         }*/
+    }
+    
+    func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+        let alertController = UIAlertController(title: "Error", message: "Error monitoring the specified region.", preferredStyle: .alert)
+        //...
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
+        var rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        if let navigationController = rootViewController as? UINavigationController {
+            rootViewController = navigationController.viewControllers.first
+        }
+        if let tabBarController = rootViewController as? UITabBarController {
+            rootViewController = tabBarController.selectedViewController
+        }
+        rootViewController?.present(alertController, animated: true, completion: nil)
     }
 }
