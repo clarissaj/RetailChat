@@ -15,11 +15,29 @@ class LoginViewController: UIViewController {
     @IBOutlet var emailField: UITextField!
     @IBOutlet var pwField: UITextField!
     
+    var credentials = [Credentials]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        getData()
+        
+        currentEmail.text = credentials[0].email
+        
+        //if empty disable tabs that require user to be logged in
+        if credentials.isEmpty {
+            if let arrayOfTabBarItems = tabBarController?.tabBar.items as AnyObject as? NSArray,
+                let mailsList = arrayOfTabBarItems[1] as? UITabBarItem, let prList = arrayOfTabBarItems[2] as? UITabBarItem{
+                mailsList.isEnabled = false
+                prList.isEnabled = false
+            }
+        }
+    }
     
     @IBAction func submitPressed(_ sender: UIButton) {
         if emailField.text != "" && pwField.text != "" {
-            emptyLogin()
+            emptyInitialLogin()
             
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             
@@ -33,26 +51,35 @@ class LoginViewController: UIViewController {
             
             currentEmail.text = emailField.text
             
+            //enables tabs that require user to be logged in
+            if let arrayOfTabBarItems = tabBarController?.tabBar.items as AnyObject as? NSArray,
+                let mailsList = arrayOfTabBarItems[1] as? UITabBarItem, let prList = arrayOfTabBarItems[2] as? UITabBarItem{
+                mailsList.isEnabled = true
+                prList.isEnabled = true
+            }
+            
+            self.tabBarController?.selectedIndex = 1
             clearFieldsAndResponder()
         }
     }
     
-    func emptyLogin() {
-        // Create Fetch Request
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Credentials")
+    func emptyInitialLogin() {
         
-        // Create Batch Delete Request
-        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        //let count = credentials.count
+        for cr in credentials
+        {
+            context.delete(cr)
+        }
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
         
         do {
-            try context.execute(batchDeleteRequest)
-            
+            credentials = try context.fetch(Credentials.fetchRequest())
         } catch {
-            print("Batch Delete Failed")
+            print("Credentials Fetching Failed")
         }
         
-        // Code to add, the data source & table view must stay in sync
-        //(UIApplication.shared.delegate as! AppDelegate).saveContext()
+        // Code to delete, the data source & table view must stay in sync
+        (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
     
     func clearFieldsAndResponder(){
@@ -61,5 +88,13 @@ class LoginViewController: UIViewController {
         
         emailField.resignFirstResponder()
         pwField.resignFirstResponder()
+    }
+    
+    func getData() {
+        do {
+            credentials = try context.fetch(Credentials.fetchRequest())
+        } catch {
+            print("CR Fetching Failed")
+        }
     }
 }
