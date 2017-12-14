@@ -17,7 +17,7 @@ class MailsTableViewController: UITableViewController{
     // Smtp session to send back automatically confirmation of delivery messages
     let smtpSession = MCOSMTPSession()
     
-    var credentialsArray = [Credentials]()
+    //var credentialsArray = [Credentials]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var locationAlert = UIAlertController(title: "Invalid location", message: "You cannot use this application when not working, exiting.", preferredStyle: .alert)
@@ -42,15 +42,15 @@ class MailsTableViewController: UITableViewController{
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
         
-        getData()
+        db.emptyMails()
         loadImapConnection()
         loadSmtpSession()
-        getNewMails()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        getNewMails()
+        db.getData()
         tableView.reloadData()
     }
     
@@ -70,6 +70,7 @@ class MailsTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             // Delete from datasource
+            db.deleteMail(atIndex: indexPath.row)
             
             // Delete from table view
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -88,10 +89,11 @@ class MailsTableViewController: UITableViewController{
             if let row = tableView.indexPathForSelectedRow?.row{
                 let mailViewController = segue.destination as! MailViewController
                 let mail = db.getMail(atIndex: row)
-                mailViewController.fromLabel.text = mail.from
-                mailViewController.toLabel.text = mail.to
-                mailViewController.objectLabel.text = mail.subject
-                mailViewController.bodyLabel.text = mail.body
+                //print("\(mail) check")
+                mailViewController.from = mail.from
+                mailViewController.to = mail.to
+                mailViewController.subject = mail.subject
+                mailViewController.body = mail.body
             }
         case "newMail"?:
             let newMailController = segue.destination as! ComposeMailController
@@ -103,7 +105,9 @@ class MailsTableViewController: UITableViewController{
     
     // Function that setups the connection to the imap mail server
     func loadImapConnection(){
-        let cr = credentialsArray[0]
+        //let cr = credentialsArray[0]
+        
+        let cr = db.getUserCredentials(index: 0)
         
         // Values to be loaded from CoreData
         imapSession.hostname = "imap.gmail.com"
@@ -124,7 +128,9 @@ class MailsTableViewController: UITableViewController{
     
     // Function that setups the connection the the smtp mail server
     func loadSmtpSession(){
-        let cr = credentialsArray[0]
+        //let cr = credentialsArray[0]
+        
+        let cr = db.getUserCredentials(index: 0)
         
         // Values to be loaded from Core Data
         smtpSession.hostname = "smtp.gmail.com"
@@ -160,11 +166,12 @@ class MailsTableViewController: UITableViewController{
             for message in arrayOfMessages{
                 let fetchBody = self.imapSession.fetchMessageOperation(withFolder: "INBOX", uid: message.uid)
                 fetchBody?.start({(error: Error?, data: Data?) in
-                    print("\nHEADER\n")
-                    print(message.header) // the header object contains all the fields in the header you need
                     messageParser = MCOMessageParser(data: data!)
-                    print("BODY\n")
-                    print((messageParser!.plainTextBodyRendering())!) // plain body text
+                    self.db.saveMail(message.header, messageParser!.plainTextBodyRendering()) // the header object contains all the fields in the header you need, next to it is the body
+                    self.tableView.reloadData()
+                    //print((messageParser!.plainTextBodyRendering())!) // plain body text
+                    
+                    
                     
                     // Check if the body of the mail contains a Product request mention and if so add it to the Product request list
                     self.addProductRequestFromMail(messageParser!.plainTextBodyRendering())
@@ -253,14 +260,6 @@ class MailsTableViewController: UITableViewController{
         }
         catch let error{
             print("Invalid regex: \(error.localizedDescription)")
-        }
-    }
-    
-    func getData() {
-        do {
-            credentialsArray = try context.fetch(Credentials.fetchRequest())
-        } catch {
-            print("Fetching Failed")
         }
     }
 }

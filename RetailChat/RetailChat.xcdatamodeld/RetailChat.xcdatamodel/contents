@@ -10,6 +10,7 @@
     <entity name="Mail" representedClassName="Mail" syncable="YES" codeGenerationType="class">
         <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="from" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="subject" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="to" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -19,8 +20,8 @@
     </entity>
     <elements>
         <element name="Contacts" positionX="-54" positionY="27" width="128" height="60"/>
-        <element name="Mail" positionX="-54" positionY="9" width="128" height="105"/>
-        <element name="ProductRequests" positionX="-63" positionY="-18" width="128" height="75"/>
         <element name="Credentials" positionX="-54" positionY="27" width="128" height="75"/>
+        <element name="Mail" positionX="-54" positionY="9" width="128" height="120"/>
+        <element name="ProductRequests" positionX="-63" positionY="-18" width="128" height="75"/>
     </elements>
 </model>

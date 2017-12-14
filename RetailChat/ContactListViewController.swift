@@ -11,8 +11,7 @@ import UIKit
 // Class that accesses and displays to the list of all our contact's email address
 class ContactListViewController: UITableViewController {
     
-    var contacts = [Contacts]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let db = database.sharedInstance
     
     @IBAction func addContact(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Add Contact", message: nil, preferredStyle: .alert)
@@ -27,14 +26,7 @@ class ContactListViewController: UITableViewController {
             (action) -> Void in
             
             if let email = alert.textFields?.first?.text {
-                let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-                let contact = Contacts(context : context)
-                
-                contact.email = email
-                
-                // Code to add, the data source & table view must stay in sync
-                (UIApplication.shared.delegate as! AppDelegate).saveContext()
-                self.getData()
+                self.db.saveContact(email)
                 self.tableView.reloadData()
             }
         }
@@ -49,20 +41,20 @@ class ContactListViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        getData()
+        db.getData()
         tableView.reloadData()
     }
     
     // Function that gives the table view the number of rows to print, from the database containing the mails of each contact
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Returns the number of Contacts we have in the CoreData db
-        return contacts.count
+        return db.getContactsCount()
     }
     
     // Function that constructs the table view cells to display from the contact list fetched by CoreData
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
-        cell.textLabel?.text = contacts[indexPath.row].email
+        cell.textLabel?.text = db.getContact(atIndex: indexPath.row).email
         return cell
     }
     
@@ -72,21 +64,15 @@ class ContactListViewController: UITableViewController {
         case "newMailToContact"?:
             if let row = tableView.indexPathForSelectedRow?.row{
                 let composeViewController = segue.destination as! ComposeMailController
-                let contactMail = contacts[row].email
-                composeViewController.destField.text = contactMail
+                if composeViewController.view == nil{
+                    composeViewController.loadView()
+                }
+                composeViewController.destField.text = db.getContact(atIndex: row).email
                 composeViewController.subjectField.text = ""
                 composeViewController.bodyField.text = ""
             }
         default:
             preconditionFailure("Unexpected segue identifier")
-        }
-    }
-    
-    func getData() {
-        do {
-            contacts = try context.fetch(Contacts.fetchRequest())
-        } catch {
-            print("Contacts Fetching Failed")
         }
     }
 }

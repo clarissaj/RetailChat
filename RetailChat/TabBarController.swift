@@ -10,7 +10,13 @@ import UIKit
 
 class TabBarController: UITabBarController{
     
+    let db = database.sharedInstance
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if db.credentialsIsEmpty() {
+            self.selectedIndex = 3
+        }
     }
 }

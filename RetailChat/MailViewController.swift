@@ -11,9 +11,14 @@ import UIKit
 // Class that shows the details of a specific mail
 class MailViewController: UIViewController{
 
+    var from: String?
+    var to: String?
+    var subject: String?
+    var body: String?
+    
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
-    @IBOutlet weak var objectLabel: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
     
     override func viewDidLoad() {
@@ -22,6 +27,16 @@ class MailViewController: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if let testFrom = from, let testTo = to,
+            let testSubject = subject, let testBody = body{
+            toLabel.text = testTo
+            fromLabel.text = testFrom
+            subjectLabel.text = testSubject
+            bodyLabel.text = testBody
+        } else {
+            print("fields empty?")
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -30,7 +45,7 @@ class MailViewController: UIViewController{
         // Clears the text contained in the labels
         fromLabel.text = ""
         toLabel.text = ""
-        objectLabel.text = ""
+        subjectLabel.text = ""
         bodyLabel.text = ""
     }
 }

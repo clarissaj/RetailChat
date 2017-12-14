@@ -9,26 +9,25 @@
 import UIKit
 import CoreData
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var currentEmail: UILabel!
     @IBOutlet var emailField: UITextField!
     @IBOutlet var pwField: UITextField!
     
-    var credentials = [Credentials]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let db = database.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getData()
-        
-        currentEmail.text = credentials[0].email
-        
-        //if empty disable tabs that require user to be logged in
-        if credentials.isEmpty {
+        db.getData()
+        //db.emptyInitialLogin()
+        if !db.credentialsIsEmpty() {
+            currentEmail.text = db.getUserCredentials(index: 0).email
+        } else {
+            //if empty disable tabs that require user to be logged in
             if let arrayOfTabBarItems = tabBarController?.tabBar.items as AnyObject as? NSArray,
-                let mailsList = arrayOfTabBarItems[1] as? UITabBarItem, let prList = arrayOfTabBarItems[2] as? UITabBarItem{
+                let mailsList = arrayOfTabBarItems[0] as? UITabBarItem, let prList = arrayOfTabBarItems[1] as? UITabBarItem{
                 mailsList.isEnabled = false
                 prList.isEnabled = false
             }
@@ -37,7 +36,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func submitPressed(_ sender: UIButton) {
         if emailField.text != "" && pwField.text != "" {
-            emptyInitialLogin()
+            db.emptyInitialLogin()
             
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             
@@ -53,33 +52,14 @@ class LoginViewController: UIViewController {
             
             //enables tabs that require user to be logged in
             if let arrayOfTabBarItems = tabBarController?.tabBar.items as AnyObject as? NSArray,
-                let mailsList = arrayOfTabBarItems[1] as? UITabBarItem, let prList = arrayOfTabBarItems[2] as? UITabBarItem{
+                let mailsList = arrayOfTabBarItems[0] as? UITabBarItem, let prList = arrayOfTabBarItems[1] as? UITabBarItem{
                 mailsList.isEnabled = true
                 prList.isEnabled = true
             }
             
-            self.tabBarController?.selectedIndex = 1
+            self.tabBarController?.selectedIndex = 0
             clearFieldsAndResponder()
         }
-    }
-    
-    func emptyInitialLogin() {
-        
-        //let count = credentials.count
-        for cr in credentials
-        {
-            context.delete(cr)
-        }
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
-        
-        do {
-            credentials = try context.fetch(Credentials.fetchRequest())
-        } catch {
-            print("Credentials Fetching Failed")
-        }
-        
-        // Code to delete, the data source & table view must stay in sync
-        (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
     
     func clearFieldsAndResponder(){
@@ -90,11 +70,8 @@ class LoginViewController: UIViewController {
         pwField.resignFirstResponder()
     }
     
-    func getData() {
-        do {
-            credentials = try context.fetch(Credentials.fetchRequest())
-        } catch {
-            print("CR Fetching Failed")
-        }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

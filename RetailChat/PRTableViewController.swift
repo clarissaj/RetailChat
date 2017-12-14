@@ -12,18 +12,14 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     
     @IBOutlet weak var searchField: UISearchBar!
     
-    //let db = database.sharedInstance
+    let db = database.sharedInstance
     var filteredData = [(product: String, dc: String)]()
     var isSearching = false
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var productRequestArray = [ProductRequests]()
-    var credentialsArray = [Credentials]()
-    var contactsArray = [Contacts]()
     let smtpSession = MCOSMTPSession()
     
     
     func loadSmtpSession(){
-        let cr = credentialsArray[0]
+        let cr = db.getUserCredentials(index: 0)
         
         smtpSession.hostname = "smtp.gmail.com"
         smtpSession.username = cr.email
@@ -66,16 +62,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
             (action) -> Void in
             
             if let product = alert.textFields?[0].text, let dc = alert.textFields?[1].text {
-                let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-                let pr = ProductRequests(context : context)
-                
-                pr.product = product
-                pr.dc = dc
-                
-                // Code to add, the data source & table view must stay in sync
-                (UIApplication.shared.delegate as! AppDelegate).saveContext()
-                
-                self.getData()
+                self.db.savePR(product, dc)
                 self.tableView.reloadData()
                 // Sends an email to everyone except this person to notify him of the product request
                 
@@ -87,7 +74,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 // Transform the destEmailAddresses array in an array of MCOAddress to send them the message
                 var recipientsMCOAddressArray = [MCOAddress]()
                 
-                for contact in self.contactsArray{
+                for contact in self.db.getContacts(){
                     recipientsMCOAddressArray.append(MCOAddress(displayName: contact.email, mailbox: contact.email))
                 }
                 
@@ -130,32 +117,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     func addNewItemFromMail(_ product: String?, _ dc: String?){
         if product != nil && dc != nil{
             
-            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-            
-            // Check first that the combination product/dc doesn't already exist in the fetched data here before adding
-            do{
-                productRequestArray = try context.fetch(ProductRequests.fetchRequest())
-            }
-            catch {
-                print("PR Fetching Failed")
-            }
-            
-            // If the combination product/dc is already in the array, we exit the function
-            
-            for element in productRequestArray{
-                if element.product == product && element.dc == dc{
-                    return
-                }
-            }
-            
-            // Else we add the combination to the array
-            let pr = ProductRequests(context : context)
-            pr.product = product
-            pr.dc = dc
-            
-            // Code to add, the data source & table view must stay in sync
-            (UIApplication.shared.delegate as! AppDelegate).saveContext()
-            getData()
+            db.savePR(product, dc)
             tableView.reloadData()
         }
     }
@@ -172,7 +134,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         navigationItem.leftBarButtonItem = editButtonItem
         tableView.delegate = self
         tableView.dataSource = self
-        getData()
+        db.getData()
         
         // Loads the SMTP session
         self.loadSmtpSession()
@@ -183,7 +145,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         if isSearching{
             return filteredData.count
         }
-        return productRequestArray.count
+        return db.getPRCount()
     }
     
     // Function that constructs the table view cells to display
@@ -196,7 +158,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         }
         else{
             // If we are not searching, loads data from the database
-            let productRequest = productRequestArray[indexPath.row]
+            let productRequest = db.getPR(atIndex: indexPath.row)
             cell.textLabel?.text = productRequest.product
             cell.detailTextLabel?.text = "DC: " + productRequest.dc!
         }
@@ -208,15 +170,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         
         if editingStyle == .delete {
             // Delete from datasource
-            let pr = productRequestArray[indexPath.row]
-            context.delete(pr)
-            (UIApplication.shared.delegate as! AppDelegate).saveContext()
-            
-            do {
-                productRequestArray = try context.fetch(ProductRequests.fetchRequest())
-            } catch {
-                print("PR Fetching Failed")
-            }
+            db.deletePR(atIndex: indexPath.row)
             
             // Delete from table view
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -238,7 +192,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
             isSearching = true
             let textLength = searchText.characters.count
             if textLength <= getMaxStringLengthInPRArray(){
-                let filteredPR = productRequestArray.filter({($0.product?.lowercased().contains(searchText.lowercased()))!})
+                let filteredPR = db.filterPR(searchText)
                 for pr in filteredPR{
                     filteredData.append((product: pr.product!, dc: pr.dc!))
                 }
@@ -252,34 +206,11 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     
     func getMaxStringLengthInPRArray() -> Int{
         var length = 0
-        for element in productRequestArray{
+        for element in db.getPRArray(){
             if (element.product?.characters.count)! > length{
                 length = (element.product?.characters.count)!
             }
         }
         return length
-    }
-    
-    func getData(){
-        //Product Requests fetch
-        do {
-            productRequestArray = try context.fetch(ProductRequests.fetchRequest())
-        } catch {
-            print("PR Fetching Failed")
-        }
-        
-        //Credentials fetch
-        do {
-            credentialsArray = try context.fetch(Credentials.fetchRequest())
-        } catch {
-            print("Credentials Fetching Failed")
-        }
-        
-        //Contacts fetch
-        do {
-            contactsArray = try context.fetch(Contacts.fetchRequest())
-        } catch {
-            print("Contacts Fetching Failed")
-        }
     }
 }
