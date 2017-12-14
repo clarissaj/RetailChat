@@ -30,7 +30,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         db.getData()
-        //db.emptyInitialLogin()
+       // db.emptyInitialLogin()
         if !db.credentialsIsEmpty() {
             currentEmail.text = db.getUserCredentials(index: 0).email
         } else {

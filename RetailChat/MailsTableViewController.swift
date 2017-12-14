@@ -42,7 +42,7 @@ class MailsTableViewController: UITableViewController{
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
 
-        //db.emptyMails()
+
         db.loadImapConnection()
         db.loadSmtpSession()
     }

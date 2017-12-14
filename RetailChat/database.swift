@@ -280,6 +280,8 @@ final class database {
         smtpSession.authType = MCOAuthType.saslPlain
         smtpSession.connectionType = MCOConnectionType.TLS
         smtpSession.connectionLogger = {(connectionID, type, data) in
+            print(type)
+            print(data)
             if data == nil {
                 print("Connection error while setting SMTP session")
                 //if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
@@ -307,6 +309,8 @@ final class database {
         imapSession.authType = MCOAuthType.saslPlain
         imapSession.connectionType = MCOConnectionType.TLS
         imapSession.connectionLogger = {(connectionID, type, data) in
+            print(type)
+            print(data)
             if data == nil {
                 print("Connection error while setting IMAP session")
                 //if NSString(data: data!, encoding: String.Encoding.utf8.rawValue) != nil{

@@ -34,10 +34,18 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationInBounds(_ locValue : CLLocationCoordinate2D) -> Bool{
         // ECS Room values
+        /*
         let latLeft = 25.758902966939928
         let latRight = 25.75873870059714
         let lonDown = -80.37342846393585
         let lonUp = -80.37373155355453
+        */
+        
+        // Best buy GPS coordinates
+        let latLeft = 25.788793240839194
+        let latRight = 25.78848048867884
+        let lonDown = -80.38138456642628
+        let lonUp = -80.3815334290266
         
         if locValue.latitude <= latLeft && locValue.latitude >= latRight && locValue.longitude <= lonDown && locValue.longitude >= lonUp{
             return true
