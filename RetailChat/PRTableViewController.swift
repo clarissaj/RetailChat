@@ -13,18 +13,21 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     @IBOutlet weak var searchField: UISearchBar!
     
     //let db = database.sharedInstance
-    var filteredData = [String]()
+    var filteredData = [(product: String, dc: String)]()
     var isSearching = false
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    private var productRequestArray = [ProductRequests]()
+    var productRequestArray = [ProductRequests]()
+    var credentialsArray = [Credentials]()
+    var contactsArray = [Contacts]()
     let smtpSession = MCOSMTPSession()
     
     
     func loadSmtpSession(){
-        // To change with values retrieved from CoreData, same thing in ComposeMail and MailsTableView
+        let cr = credentialsArray[0]
+        
         smtpSession.hostname = "smtp.gmail.com"
-        smtpSession.username = "cj13bestbuy@gmail.com"
-        smtpSession.password = "bestbuytest"
+        smtpSession.username = cr.email
+        smtpSession.password = cr.password
         smtpSession.port = 465
         
         smtpSession.authType = MCOAuthType.saslPlain
@@ -46,12 +49,10 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         
         alert.addTextField {
             (textField) -> Void in
-            textField.placeholder = "product and DC amount" // "Product name"
+            textField.placeholder = "product"
             textField.autocapitalizationType = .words
         }
         
-        /* Maybe have a text field just for product and another one just for DC amount, would simplify to send the mail to all users 
-         // In the same fashion maybe should we have one attribute for DC and one for product in the Entity list
          
         alert.addTextField {
             (textField) -> Void in
@@ -60,20 +61,19 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         }
          
          // You can access the text fields one by one with the alert.textFields array
-        */
 
         let okAction = UIAlertAction(title: "OK", style: .default) {
             (action) -> Void in
             
-            if let product = alert.textFields?.first?.text {
+            if let product = alert.textFields?[0].text, let dc = alert.textFields?[1].text {
                 let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
                 let pr = ProductRequests(context : context)
                 
                 pr.product = product
-                
-                (UIApplication.shared.delegate as! AppDelegate).saveContext()
+                pr.dc = dc
                 
                 // Code to add, the data source & table view must stay in sync
+                (UIApplication.shared.delegate as! AppDelegate).saveContext()
                 
                 
                 // Sends an email to everyone except this person to notify him of the product request
@@ -81,13 +81,13 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 let userEmailAddress : String = self.smtpSession.username
                 
                 // Get the list of all mail addresses from CoreData + remove email of current user
-                var stringDestEmailAddresses = [String]()
+                //var stringDestEmailAddresses = [String]()
                 
                 // Transform the destEmailAddresses array in an array of MCOAddress to send them the message
                 var recipientsMCOAddressArray = [MCOAddress]()
                 
-                for address in stringDestEmailAddresses{
-                    recipientsMCOAddressArray.append(MCOAddress(displayName: address, mailbox: address))
+                for contact in self.contactsArray{
+                    recipientsMCOAddressArray.append(MCOAddress(displayName: contact.email, mailbox: contact.email))
                 }
                 
                 // Build the message
@@ -97,7 +97,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 builder.header.subject = "AUTO-GENERATED: Product Request"
                 
                 // Case where we have two textFields, otherwise more complicated:
-                //builder.textBody = "This message has been generated automatically, please do not answer.\n\nProductRequest#\(alert.textFields?.first?.text)\nDC#\(alert.textFields?[1].text)\n\nThank you for your attention."
+                //builder.textBody = "This message has been generated automatically, please do not answer.\n\nProductRequest#\(alert.textFields?[0].text)\nDC#\(alert.textFields?[1].text)\n\nThank you for your attention."
                 
                 let rfc822Data = builder.data()
                 
@@ -130,17 +130,18 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
             // Should check first that the combination product/dc doesn't already exist in the fetched data here before adding
             let pr = ProductRequests(context : context)
             pr.product = product
-            
-            (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            pr.dc = dc
             
             // Code to add, the data source & table view must stay in sync
+            (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            getData()
+            tableView.reloadData()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        getData()
         tableView.reloadData()
     }
     
@@ -150,6 +151,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         navigationItem.leftBarButtonItem = editButtonItem
         tableView.delegate = self
         tableView.dataSource = self
+        getData()
         
         // Loads the SMTP session
         self.loadSmtpSession()
@@ -168,11 +170,14 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProductCell", for: indexPath)
         if isSearching{
             // If we are searching, loads data from the data that matches the search
-            cell.textLabel?.text = filteredData[indexPath.row]
+            cell.textLabel?.text = filteredData[indexPath.row].product
+            cell.detailTextLabel?.text = filteredData[indexPath.row].dc
         }
         else{
             // If we are not searching, loads data from the database
-            cell.textLabel?.text = productRequestArray[indexPath.row].product
+            let productRequest = productRequestArray[indexPath.row]
+            cell.textLabel?.text = productRequest.product
+            cell.detailTextLabel?.text = "DC: " + productRequest.dc!
         }
         return cell
     }
@@ -181,15 +186,20 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            let product = productRequestArray[indexPath.row]
-            context.delete(product)
+            // Delete from datasource
+            let pr = productRequestArray[indexPath.row]
+            context.delete(pr)
             (UIApplication.shared.delegate as! AppDelegate).saveContext()
             
             do {
                 productRequestArray = try context.fetch(ProductRequests.fetchRequest())
             } catch {
-                print("Fetching Failed")
+                print("PR Fetching Failed")
             }
+            
+            // Delete from table view
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+
         }
         
         tableView.reloadData()
@@ -207,19 +217,32 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
             isSearching = true
             let filteredPR = productRequestArray.filter({($0.product?.lowercased())! == searchText.lowercased()})
             for pr in filteredPR{
-                filteredData.append(pr.product!)
+                filteredData.append((product: pr.product!, dc: pr.dc!))
             }
             tableView.reloadData()
         }
     }
     
-    // Method to fill in data
-    func getData() {
+    func getData(){
+        //Product Requests fetch
         do {
             productRequestArray = try context.fetch(ProductRequests.fetchRequest())
         } catch {
-            print("Fetching Failed")
+            print("PR Fetching Failed")
+        }
+        
+        //Credentials fetch
+        do {
+            credentialsArray = try context.fetch(Credentials.fetchRequest())
+        } catch {
+            print("Credentials Fetching Failed")
+        }
+        
+        //Contacts fetch
+        do {
+            contactsArray = try context.fetch(Contacts.fetchRequest())
+        } catch {
+            print("Contacts Fetching Failed")
         }
     }
-    
 }
