@@ -20,16 +20,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             locManager.delegate = self
             //print("Entering location enabled if")
             locManager.requestAlwaysAuthorization()
-            locManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
+            locManager.distanceFilter = kCLLocationAccuracyBest
             locManager.desiredAccuracy = kCLLocationAccuracyBest
             //geoFence = CLCircularRegion()
             if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
                 //print("Entering isMonitoring if")
                 let title = "Best Buy Mobile"
-                let coordinate = CLLocationCoordinate2D(latitude: 25.787553, longitude: -80.380388)//Best buy Dolphin location
+                let coordinate = CLLocationCoordinate2D(latitude: 25.758819, longitude: -80.373580)//ECS lab
                 //let coordinate = CLLocationCoordinate2D(latitude: (locManager.location?.coordinate.latitude)!, longitude: (locManager.location?.coordinate.longitude)!) //about 25.78755300, -80.38038800 for my location in JCCL lab
                 //let coordinate = CLLocationCoordinate2D(latitude: 25.75904, longitude: -80.373845)
-                let regionRadius = 20.0
+                let regionRadius = 1.0
+                //25.788682, -80.381460 Best Buy
             
             
                 let region = CLCircularRegion(center: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude), radius: regionRadius, identifier: title)
@@ -63,7 +64,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         
         else if status == .denied {
-            
+            let alertController = UIAlertController(title: "Error", message: "Please allow access to location services.", preferredStyle: .alert)
+            //...
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
+            var rootViewController = UIApplication.shared.keyWindow?.rootViewController
+            if let navigationController = rootViewController as? UINavigationController {
+                rootViewController = navigationController.viewControllers.first
+            }
+            if let tabBarController = rootViewController as? UITabBarController {
+                rootViewController = tabBarController.selectedViewController
+            }
+            rootViewController?.present(alertController, animated: true, completion: nil)
         }
     }
     
