@@ -23,6 +23,8 @@
 		8AABA3851FD8888900F559DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AABA3831FD8888900F559DA /* LaunchScreen.storyboard */; };
 		8AABA38D1FD889DE00F559DA /* MailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA38C1FD889DE00F559DA /* MailViewController.swift */; };
 		8AABA38F1FD88A3600F559DA /* PRTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */; };
+		8AD260AC1FE20C4700FD4B45 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD260AA1FE20C4700FD4B45 /* LocationManager.swift */; };
+		8AD260AD1FE20C4700FD4B45 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AD260AB1FE20C4700FD4B45 /* LoginViewController.swift */; };
 		8AD3DF681FDF4DC000AFAB8F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AD3DF671FDF4DC000AFAB8F /* CFNetwork.framework */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +114,8 @@
 		8AABA3861FD8888900F559DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AABA38C1FD889DE00F559DA /* MailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailViewController.swift; sourceTree = "<group>"; };
 		8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRTableViewController.swift; sourceTree = "<group>"; };
+		8AD260AA1FE20C4700FD4B45 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		8AD260AB1FE20C4700FD4B45 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8AD3DF671FDF4DC000AFAB8F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -164,6 +168,8 @@
 		8AABA3761FD8888900F559DA /* RetailChat */ = {
 			isa = PBXGroup;
 			children = (
+				8AD260AA1FE20C4700FD4B45 /* LocationManager.swift */,
+				8AD260AB1FE20C4700FD4B45 /* LoginViewController.swift */,
 				8AABA38C1FD889DE00F559DA /* MailViewController.swift */,
 				8AABA3771FD8888900F559DA /* AppDelegate.swift */,
 				8AABA37B1FD8888900F559DA /* Main.storyboard */,

@@ -49,7 +49,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         
         alert.addTextField {
             (textField) -> Void in
-            textField.placeholder = "product"
+            textField.placeholder = "Product"
             textField.autocapitalizationType = .words
         }
         
@@ -75,7 +75,8 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 // Code to add, the data source & table view must stay in sync
                 (UIApplication.shared.delegate as! AppDelegate).saveContext()
                 
-                
+                self.getData()
+                self.tableView.reloadData()
                 // Sends an email to everyone except this person to notify him of the product request
                 
                 let userEmailAddress : String = self.smtpSession.username
@@ -96,8 +97,12 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 builder.header.from = MCOAddress(displayName: userEmailAddress, mailbox: userEmailAddress)
                 builder.header.subject = "AUTO-GENERATED: Product Request"
                 
+                let productText : String = (alert.textFields?[0].text)!
+                let dcText : String = (alert.textFields?[1].text)!
                 // Case where we have two textFields, otherwise more complicated:
-                //builder.textBody = "This message has been generated automatically, please do not answer.\n\nProductRequest#\(alert.textFields?[0].text)\nDC#\(alert.textFields?[1].text)\n\nThank you for your attention."
+                builder.textBody = "This message has been generated automatically, please do not answer."
+                builder.textBody.append("\nProductRequest#\(productText)\nDC#\(dcText)\n")
+                builder.textBody.append("Thank you for your attention.")
                 
                 let rfc822Data = builder.data()
                 
@@ -127,7 +132,23 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
             
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             
-            // Should check first that the combination product/dc doesn't already exist in the fetched data here before adding
+            // Check first that the combination product/dc doesn't already exist in the fetched data here before adding
+            do{
+                productRequestArray = try context.fetch(ProductRequests.fetchRequest())
+            }
+            catch {
+                print("PR Fetching Failed")
+            }
+            
+            // If the combination product/dc is already in the array, we exit the function
+            
+            for element in productRequestArray{
+                if element.product == product && element.dc == dc{
+                    return
+                }
+            }
+            
+            // Else we add the combination to the array
             let pr = ProductRequests(context : context)
             pr.product = product
             pr.dc = dc
@@ -215,12 +236,28 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         else{
             filteredData.removeAll()
             isSearching = true
-            let filteredPR = productRequestArray.filter({($0.product?.lowercased())! == searchText.lowercased()})
-            for pr in filteredPR{
-                filteredData.append((product: pr.product!, dc: pr.dc!))
+            let textLength = searchText.characters.count
+            if textLength <= getMaxStringLengthInPRArray(){
+                let filteredPR = productRequestArray.filter({($0.product?.lowercased().contains(searchText.lowercased()))!})
+                for pr in filteredPR{
+                    filteredData.append((product: pr.product!, dc: pr.dc!))
+                }
+            }
+            else{
+                filteredData.removeAll()
             }
             tableView.reloadData()
         }
+    }
+    
+    func getMaxStringLengthInPRArray() -> Int{
+        var length = 0
+        for element in productRequestArray{
+            if (element.product?.characters.count)! > length{
+                length = (element.product?.characters.count)!
+            }
+        }
+        return length
     }
     
     func getData(){
