@@ -131,10 +131,10 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="dIP-nb-aVW" kind="relationship" relationship="viewControllers" id="YZk-yW-fDN"/>
                         <segue destination="Wka-xb-Akg" kind="relationship" relationship="viewControllers" id="Vmp-qT-41j"/>
                         <segue destination="HzX-l3-eFe" kind="relationship" relationship="viewControllers" id="U1n-q3-8Qa"/>
                         <segue destination="hKH-7E-9CY" kind="relationship" relationship="viewControllers" id="YVm-LM-aof"/>
+                        <segue destination="dIP-nb-aVW" kind="relationship" relationship="viewControllers" id="YZk-yW-fDN"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mmh-Rb-SBQ" userLabel="First Responder" sceneMemberID="firstResponder"/>

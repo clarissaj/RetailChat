@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
         
         getData()
         
-        currentEmail.text = credentials[0].email
+        //currentEmail.text = credentials[0].email
         
         //if empty disable tabs that require user to be logged in
         if credentials.isEmpty {

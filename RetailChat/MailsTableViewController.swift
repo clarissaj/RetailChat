@@ -16,6 +16,8 @@ class MailsTableViewController: UITableViewController{
     let imapSession = MCOIMAPSession()
     // Smtp session to send back automatically confirmation of delivery messages
     let smtpSession = MCOSMTPSession()
+    // object that checks the location of the user to see if he's at work or not
+    var locationManager : LocationManager?
     
     var credentialsArray = [Credentials]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -30,22 +32,27 @@ class MailsTableViewController: UITableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locationManager = LocationManager()
+        
+        print(#function)
         locationAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
 
         // Checks the location of the user relatively to the work location, exit if they don't match
         
         // If location != work location, alert and exit
-        if false{
+        if !((locationManager?.locationInBounds((locationManager?.getCoordinates())!))!){
             present(locationAlert, animated: true)
         }
         
+        locationManager?.stopUpdates()
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
         
         getData()
-        loadImapConnection()
-        loadSmtpSession()
-        getNewMails()
+        //loadImapConnection()
+        //loadSmtpSession()
+        //getNewMails()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -201,21 +208,6 @@ class MailsTableViewController: UITableViewController{
                 })
             }
         }
-        
-        //let fetchOp = session.fetchMessagesByUIDOperation(withFolder: "INBOX", requestKind: MCOIMAPMessagesRequestKind.fullHeaders, uids: uidSet)
-        
-        //let test = session.fetchAllFoldersOperation()
-        //test?.start({(error: Error?, data: [Any]?) in
-       //     print(data!)
-       // })
-        
-        //let testFetch = MCOIMAPSearchExpression.search(from: "olivier.nappert@gmail.com")
-        //let testSearch = session.searchExpressionOperation(withFolder: "INBOX", expression: testFetch!)
-        
-       //testSearch?.start({(error: Error?, uidSet: MCOIndexSet?) in
-        //    print("error \(error)")
-        //    print("uidset \(uidSet)")
-        //})
     }
     
     // Function that adds automatically an item in the product request tableview of the user, based on the body of the mails he receives
