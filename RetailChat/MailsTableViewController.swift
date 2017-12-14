@@ -226,7 +226,7 @@ class MailsTableViewController: UITableViewController{
         
         do{
             // The body must contain ProductRequest#SomeNameHere\nDC#SomeNumberHere
-            let regex = try NSRegularExpression(pattern: "\\bProductRequest#(\\w+)\\nDC#(\\d+)\\b")
+            let regex = try NSRegularExpression(pattern: "\\bProductRequest#([a-zA-Z0-9\\s])\\nDC#(\\d+)\\b")
             let nsString = body! as NSString
             let matches = regex.matches(in: body!, range: NSRange(location: 0, length: nsString.length))
             // Now need to get the results as strings and add them by pair of PR/DC in the product request list
