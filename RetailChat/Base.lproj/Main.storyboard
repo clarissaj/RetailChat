@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G1114" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Vfv-MZ-Pr9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Vfv-MZ-Pr9">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -26,7 +26,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProductCell" textLabel="VBn-mk-K7f" style="IBUITableViewCellStyleDefault" id="hKM-Ec-eSS">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProductCell" textLabel="VBn-mk-K7f" detailTextLabel="4aZ-Sq-cwS" style="IBUITableViewCellStyleValue1" id="hKM-Ec-eSS">
                                 <rect key="frame" x="0.0" y="72" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hKM-Ec-eSS" id="waX-vr-rsd">
@@ -34,10 +34,17 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VBn-mk-K7f">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <rect key="frame" x="15" y="12" width="33.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="DC:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4aZ-Sq-cwS">
+                                            <rect key="frame" x="331.5" y="12" width="28.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -68,18 +75,27 @@
         <!--Contacts-->
         <scene sceneID="CnG-Ia-pB4">
             <objects>
-                <tableViewController id="Irk-0c-TB8" sceneMemberID="viewController">
+                <tableViewController id="Irk-0c-TB8" customClass="ContactListViewController" customModule="RetailChat" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="0bo-82-fnA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UITableViewCell" id="JhV-WX-j8x">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContactCell" textLabel="ltv-f1-69L" style="IBUITableViewCellStyleDefault" id="JhV-WX-j8x">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JhV-WX-j8x" id="ebX-KL-crz">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ltv-f1-69L">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="fIW-7y-SGK" kind="show" identifier="newMailToContact" id="opC-6Q-fXU"/>
@@ -91,7 +107,14 @@
                             <outlet property="delegate" destination="Irk-0c-TB8" id="Nlo-tB-niV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Contacts" id="P6i-2C-F1E"/>
+                    <navigationItem key="navigationItem" title="Contacts" id="P6i-2C-F1E">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="dQg-Gs-O5f"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="0iy-hX-rpP">
+                            <connections>
+                                <action selector="addContact:" destination="Irk-0c-TB8" id="G05-n2-D2G"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="usx-8w-icb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -108,6 +131,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <segue destination="dIP-nb-aVW" kind="relationship" relationship="viewControllers" id="YZk-yW-fDN"/>
                         <segue destination="Wka-xb-Akg" kind="relationship" relationship="viewControllers" id="Vmp-qT-41j"/>
                         <segue destination="HzX-l3-eFe" kind="relationship" relationship="viewControllers" id="U1n-q3-8Qa"/>
                         <segue destination="hKH-7E-9CY" kind="relationship" relationship="viewControllers" id="YVm-LM-aof"/>
@@ -116,6 +140,82 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mmh-Rb-SBQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="24.800000000000001" y="392.65367316341832"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="zcc-6H-wKP">
+            <objects>
+                <viewController id="dIP-nb-aVW" customClass="LoginViewController" customModule="RetailChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iFN-xw-cts"/>
+                        <viewControllerLayoutGuide type="bottom" id="fTb-Z2-zAY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7Wt-lE-T5c">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Ql-ln-wkq">
+                                <rect key="frame" x="147" y="384" width="171" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DMg-P5-FzK">
+                                <rect key="frame" x="147" y="430" width="171" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gmail:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fqI-rO-O1O">
+                                <rect key="frame" x="57" y="389" width="49" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ck-GP-Ba6">
+                                <rect key="frame" x="57" y="435" width="79" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current gmail logged in:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkL-51-rNs">
+                                <rect key="frame" x="95" y="142" width="184" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VYH-PL-D6W">
+                                <rect key="frame" x="163" y="509" width="49" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Submit"/>
+                                <connections>
+                                    <action selector="submitPressed:" destination="dIP-nb-aVW" eventType="touchUpInside" id="m0Y-t7-gwq"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="None" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chW-OF-85O">
+                                <rect key="frame" x="88" y="193" width="199" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Login" id="LYf-3a-TLQ"/>
+                    <connections>
+                        <outlet property="currentEmail" destination="chW-OF-85O" id="JTp-fS-fYQ"/>
+                        <outlet property="emailField" destination="2Ql-ln-wkq" id="KKw-1i-Fa8"/>
+                        <outlet property="pwField" destination="DMg-P5-FzK" id="2EX-XH-XBF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0NH-jj-VWR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="952.79999999999995" y="-635.53223388305855"/>
         </scene>
         <!--Mails-->
         <scene sceneID="C20-I6-D8w">
@@ -152,6 +252,7 @@
                             <outlet property="delegate" destination="eSo-a5-JzS" id="3tv-mI-RBL"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Mails" id="Wyq-9Q-dL4">
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="azR-ty-Ky1"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="r4g-ev-Uvg">
@@ -160,6 +261,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kLN-Oa-Vv8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -369,11 +471,11 @@
             </objects>
             <point key="canvasLocation" x="953" y="48"/>
         </scene>
-        <!--Contact list-->
+        <!--Navigation Controller-->
         <scene sceneID="yKM-7h-pdW">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hKH-7E-9CY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Contact list" id="LbX-JY-5PJ"/>
+                    <tabBarItem key="tabBarItem" systemItem="contacts" id="LbX-JY-5PJ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uIw-hl-VIb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
