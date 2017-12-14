@@ -19,6 +19,12 @@ final class database {
     private var mailsArray = [Mail]()
     private var contactsArray = [Contacts]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    // Imap session to fetch messages
+    let imapSession = MCOIMAPSession()
+    // Smtp session to send back automatically confirmation of delivery messages
+    let smtpSession = MCOSMTPSession()
+    var smtpLoaded = False
+    var imapLoaded = False
     
     private init(){
         getData()
@@ -251,4 +257,66 @@ final class database {
         (UIApplication.shared.delegate as! AppDelegate).saveContext()
     }
     
+    // Function that setups the connection the the smtp mail server
+    func loadSmtpSession(){
+        if smtpLoaded{
+            return
+        }
+        
+        let cr = getUserCredentials(index: 0)
+        
+        // Values to be loaded from Core Data
+        smtpSession.hostname = "smtp.gmail.com"
+        smtpSession.username = cr.email
+        smtpSession.password = cr.password
+        smtpSession.port = 465
+        
+        smtpSession.authType = MCOAuthType.saslPlain
+        smtpSession.connectionType = MCOConnectionType.TLS
+        smtpSession.connectionLogger = {(connectionID, type, data) in
+            if data == nil {
+                print("Connection error while setting SMTP session")
+                //if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
+                //    print("Connectionlogger: \(string)")
+                //}
+            }
+        }
+        
+        smtpLoaded = true
+    }
+    
+    // Function that setups the connection to the imap mail server
+    func loadImapConnection(){
+        if imapLoaded{
+            return
+        }
+        
+        let cr = getUserCredentials(index: 0)
+        
+        // Values to be loaded from CoreData
+        imapSession.hostname = "imap.gmail.com"
+        imapSession.username = cr.email
+        imapSession.password = cr.password
+        imapSession.port = 993
+        imapSession.authType = MCOAuthType.saslPlain
+        imapSession.connectionType = MCOConnectionType.TLS
+        imapSession.connectionLogger = {(connectionID, type, data) in
+            if data == nil {
+                print("Connection error while setting IMAP session")
+                //if NSString(data: data!, encoding: String.Encoding.utf8.rawValue) != nil{
+                //print("Connectionlogger: \(string)")
+                //}
+            }
+        }
+        
+        imapLoaded = true
+    }
+    
+    func getImapSession() -> MCOIMAPSession{
+        return imapSession
+    }
+    
+    func getSmtpSession() -> MCOSMTPSession{
+        return smtpSession
+    }
 }

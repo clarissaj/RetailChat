@@ -15,29 +15,6 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     let db = database.sharedInstance
     var filteredData = [(product: String, dc: String)]()
     var isSearching = false
-    let smtpSession = MCOSMTPSession()
-    
-    
-    func loadSmtpSession(){
-        let cr = db.getUserCredentials(index: 0)
-        
-        smtpSession.hostname = "smtp.gmail.com"
-        smtpSession.username = cr.email
-        smtpSession.password = cr.password
-        smtpSession.port = 465
-        
-        smtpSession.authType = MCOAuthType.saslPlain
-        smtpSession.connectionType = MCOConnectionType.TLS
-        smtpSession.connectionLogger = {(connectionID, type, data) in
-            if data == nil {
-                print("Connection error while setting SMTP session")
-                //if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
-                //    print("Connectionlogger: \(string)")
-                //}
-            }
-        }
-    }
-    
     
     // Adds a new product to the product request list, modally from the Product Request tab
     @IBAction func addNewProduct(_ sender: UIBarButtonItem) {
@@ -66,7 +43,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 self.tableView.reloadData()
                 // Sends an email to everyone except this person to notify him of the product request
                 
-                let userEmailAddress : String = self.smtpSession.username
+                let userEmailAddress : String = self.db.getSmtpSession().username
                 
                 // Get the list of all mail addresses from CoreData + remove email of current user
                 //var stringDestEmailAddresses = [String]()
@@ -94,7 +71,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 let rfc822Data = builder.data()
                 
                 // Send the mails
-                let sendOperation = self.smtpSession.sendOperation(with: rfc822Data!, from: MCOAddress(displayName: userEmailAddress, mailbox: userEmailAddress), recipients: recipientsMCOAddressArray)
+                let sendOperation = self.db.getSmtpSession().sendOperation(with: rfc822Data!, from: MCOAddress(displayName: userEmailAddress, mailbox: userEmailAddress), recipients: recipientsMCOAddressArray)
                 
                 sendOperation?.start { (error) -> Void in
                     if (error != nil) {
@@ -137,7 +114,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         db.getData()
         
         // Loads the SMTP session
-        self.loadSmtpSession()
+        db.loadSmtpSession()
     }
     
     // Function that gives the table view the number of rows to print, from the database containing mails

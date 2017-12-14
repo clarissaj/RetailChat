@@ -12,10 +12,8 @@ import UIKit
 class MailsTableViewController: UITableViewController{
     
     let db = database.sharedInstance
-    // Imap session to fetch messages
-    let imapSession = MCOIMAPSession()
-    // Smtp session to send back automatically confirmation of delivery messages
-    let smtpSession = MCOSMTPSession()
+    // object that checks the location of the user to see if he's at work or not
+    var locationManager : LocationManager?
     
     //var credentialsArray = [Credentials]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -30,21 +28,24 @@ class MailsTableViewController: UITableViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locationManager = LocationManager()
         locationAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
 
         // Checks the location of the user relatively to the work location, exit if they don't match
         
         // If location != work location, alert and exit
-        if false{
+        if !((locationManager?.locationInBounds((locationManager?.getCoordinates())!))!){
             present(locationAlert, animated: true)
         }
         
+        locationManager?.stopUpdates()
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
-        
+
         db.emptyMails()
-        loadImapConnection()
-        loadSmtpSession()
+        db.loadImapConnection()
+        db.loadSmtpSession()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,7 +90,6 @@ class MailsTableViewController: UITableViewController{
             if let row = tableView.indexPathForSelectedRow?.row{
                 let mailViewController = segue.destination as! MailViewController
                 let mail = db.getMail(atIndex: row)
-                //print("\(mail) check")
                 mailViewController.from = mail.from
                 mailViewController.to = mail.to
                 mailViewController.subject = mail.subject
@@ -103,60 +103,13 @@ class MailsTableViewController: UITableViewController{
         }
     }
     
-    // Function that setups the connection to the imap mail server
-    func loadImapConnection(){
-        //let cr = credentialsArray[0]
-        
-        let cr = db.getUserCredentials(index: 0)
-        
-        // Values to be loaded from CoreData
-        imapSession.hostname = "imap.gmail.com"
-        imapSession.username = cr.email
-        imapSession.password = cr.password
-        imapSession.port = 993
-        imapSession.authType = MCOAuthType.saslPlain
-        imapSession.connectionType = MCOConnectionType.TLS
-        imapSession.connectionLogger = {(connectionID, type, data) in
-            if data == nil {
-                print("Connection error while setting IMAP session")
-                //if NSString(data: data!, encoding: String.Encoding.utf8.rawValue) != nil{
-                    //print("Connectionlogger: \(string)")
-                //}
-            }
-        }
-    }
-    
-    // Function that setups the connection the the smtp mail server
-    func loadSmtpSession(){
-        //let cr = credentialsArray[0]
-        
-        let cr = db.getUserCredentials(index: 0)
-        
-        // Values to be loaded from Core Data
-        smtpSession.hostname = "smtp.gmail.com"
-        smtpSession.username = cr.email
-        smtpSession.password = cr.password
-        smtpSession.port = 465
-        
-        smtpSession.authType = MCOAuthType.saslPlain
-        smtpSession.connectionType = MCOConnectionType.TLS
-        smtpSession.connectionLogger = {(connectionID, type, data) in
-            if data == nil {
-                print("Connection error while setting SMTP session")
-                //if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
-                //    print("Connectionlogger: \(string)")
-                //}
-            }
-        }
-    }
-    
     // Function that fetches mails, gets the header and the body
     func getNewMails(){
         let uidSet = MCOIndexSet()
         uidSet.add(MCORange(location: 1, length: UINT64_MAX))
         
         let requestKind = MCOIMAPMessagesRequestKind.headers
-        let operation = imapSession.fetchMessagesOperation(withFolder: "INBOX", requestKind: requestKind, uids: uidSet)
+        let operation = db.getImapSession().fetchMessagesOperation(withFolder: "INBOX", requestKind: requestKind, uids: uidSet)
         
         operation?.start { (err, msg, vanished) -> Void in
             print("errors from server \(String(describing: err ?? nil))")
@@ -164,7 +117,7 @@ class MailsTableViewController: UITableViewController{
             let arrayOfMessages = msg as! [MCOIMAPMessage]
             var messageParser : MCOMessageParser?
             for message in arrayOfMessages{
-                let fetchBody = self.imapSession.fetchMessageOperation(withFolder: "INBOX", uid: message.uid)
+                let fetchBody = self.db.getImapSession().fetchMessageOperation(withFolder: "INBOX", uid: message.uid)
                 fetchBody?.start({(error: Error?, data: Data?) in
                     messageParser = MCOMessageParser(data: data!)
                     self.db.saveMail(message.header, messageParser!.plainTextBodyRendering()) // the header object contains all the fields in the header you need, next to it is the body
@@ -185,14 +138,14 @@ class MailsTableViewController: UITableViewController{
                     if message.header.subject != "AUTO-GENERATED: Delivery confirmation"{
                         let builder = MCOMessageBuilder()
                         builder.header.to = [message.header.from]
-                        builder.header.from = MCOAddress(displayName: self.smtpSession.username, mailbox: self.smtpSession.username)
+                        builder.header.from = MCOAddress(displayName: self.db.getSmtpSession().username, mailbox: self.db.getSmtpSession().username)
                         builder.header.subject = "AUTO-GENERATED: Delivery confirmation"
                         builder.textBody = "This message has been generated automatically, please do not answer.\n\nYour mail has successfully been delivered to his recipient.\n\nThank you for your attention."
                         
                         let rfc822Data = builder.data()
                         
                         // Sends the mail
-                        let sendOperation = self.smtpSession.sendOperation(with: rfc822Data!)
+                        let sendOperation = self.db.getSmtpSession().sendOperation(with: rfc822Data!)
                         
                         // Comment this for now because i did tests with my email and now i get spammed by my own implementation lol.
                         /*
@@ -208,21 +161,6 @@ class MailsTableViewController: UITableViewController{
                 })
             }
         }
-        
-        //let fetchOp = session.fetchMessagesByUIDOperation(withFolder: "INBOX", requestKind: MCOIMAPMessagesRequestKind.fullHeaders, uids: uidSet)
-        
-        //let test = session.fetchAllFoldersOperation()
-        //test?.start({(error: Error?, data: [Any]?) in
-       //     print(data!)
-       // })
-        
-        //let testFetch = MCOIMAPSearchExpression.search(from: "olivier.nappert@gmail.com")
-        //let testSearch = session.searchExpressionOperation(withFolder: "INBOX", expression: testFetch!)
-        
-       //testSearch?.start({(error: Error?, uidSet: MCOIndexSet?) in
-        //    print("error \(error)")
-        //    print("uidset \(uidSet)")
-        //})
     }
     
     // Function that adds automatically an item in the product request tableview of the user, based on the body of the mails he receives

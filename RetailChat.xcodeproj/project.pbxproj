@@ -544,7 +544,7 @@
 					"-stdlib=libc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "edu.fiu.cis.Retail-Chat";
+				PRODUCT_BUNDLE_IDENTIFIER = "cis.Retail-Chat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "RetailChat-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -575,7 +575,7 @@
 					"-stdlib=libc++",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "edu.fiu.cis.Retail-Chat";
+				PRODUCT_BUNDLE_IDENTIFIER = "cis.Retail-Chat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "RetailChat-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
