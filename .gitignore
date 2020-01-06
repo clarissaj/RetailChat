@@ -19,7 +19,7 @@ build/
 *.perspectivev3
 !default.perspectivev3
 
-xcuserdata/
+RetailChat.xcodeproj/project.xcworkspace/xcuserdata/
 
 ## Other
 *.xccheckout
@@ -36,8 +36,8 @@ xcuserdata/
 ## Swift Package Manager
 .build/
 
-## Carthage
-Carthage/Build
+## CocoaPods
+Pods/
 
 # fastlane
 # https://github.com/fastlane/fastlane/blob/master/docs/Gitignore.md
