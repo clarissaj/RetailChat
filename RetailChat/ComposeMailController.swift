@@ -40,7 +40,7 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
             bodyField.resignFirstResponder()
         }
         let builder = MCOMessageBuilder()
-        builder.header.to = [MCOAddress(displayName: destField.text!, mailbox: destField.text!)]
+        builder.header.to = [MCOAddress(displayName: destField.text!, mailbox: destField.text!) as MCOAddress]
         builder.header.from = MCOAddress(displayName: db.getSmtpSession().username, mailbox: db.getSmtpSession().username)
         builder.header.subject = subjectField.text!
         builder.textBody = bodyField.text!

@@ -136,7 +136,7 @@ class MailsTableViewController: UITableViewController{
                     
                     if saved && message.header.subject != "AUTO-GENERATED: Delivery confirmation"{
                         let builder = MCOMessageBuilder()
-                        builder.header.to = [message.header.from]
+                        builder.header.to = [message.header.from as MCOAddress]
                         builder.header.from = MCOAddress(displayName: self.db.getSmtpSession().username, mailbox: self.db.getSmtpSession().username)
                         builder.header.subject = "AUTO-GENERATED: Delivery confirmation"
                         builder.textBody = "This message has been generated automatically, please do not answer.\n\nYour mail has successfully been delivered to his recipient.\n\nThank you for your attention."
@@ -180,12 +180,12 @@ class MailsTableViewController: UITableViewController{
                 for n in 0..<match.numberOfRanges {
                     let range = match.range(at: n)
                     let r = body!.index(body!.startIndex, offsetBy: range.location)..<body!.index(body!.startIndex, offsetBy: range.location+range.length)
-                    print(body!.substring(with: r))
+                    print(String(body![r]))
                     if n == 1{
-                        product = body!.substring(with: r)
+                        product = String(body![r])
                     }
                     else if n == 2{
-                        dc = body!.substring(with: r)
+                        dc = String(body![r])
                     }
                 }
             }

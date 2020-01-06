@@ -195,20 +195,24 @@ final class database {
         }
         
         //save
-        var headerFrom = header.from.description
-        let headerFromArray = headerFrom.characters.split{$0 == " "}.map(String.init)
-        var headerTo = header.to.description
-        let headerToArray = headerTo.characters.split{$0 == " "}.map(String.init)
+        let headerFrom = header.from.description
+        let headerFromArray = headerFrom.components(separatedBy: " ")
+        let headerTo = header.to.description
+        let headerToArray = headerTo.components(separatedBy: " ")
         
         let mail = Mail(context : context)
         
-        mail.to = headerToArray.last!
-        mail.to?.characters.removeLast()
-        mail.to? = (mail.to?.replacingOccurrences(of: "<", with: ""))!
-        mail.to? = (mail.to?.replacingOccurrences(of: ">", with: ""))!
-        mail.from = headerFromArray.last!
-        mail.from?.characters.removeLast()
-        mail.from?.characters.removeFirst()
+        mail.to = headerToArray.last
+        if let mailTo = mail.to {
+            mail.to = String(mailTo.dropLast())
+        }
+        mail.to = mail.to?.replacingOccurrences(of: "<", with: "")
+        mail.to = mail.to?.replacingOccurrences(of: ">", with: "")
+        mail.from = headerFromArray.last
+        if let mailFrom = mail.from {
+            mail.from = String(mailFrom.dropLast())
+            mail.from = String(mailFrom.dropFirst())
+        }
         mail.subject = header.subject
         mail.messageID = uid
         mail.body = body
@@ -281,7 +285,7 @@ final class database {
         smtpSession.connectionType = MCOConnectionType.TLS
         smtpSession.connectionLogger = {(connectionID, type, data) in
             print(type)
-            print(data)
+            print(data as Any)
             if data == nil {
                 print("Connection error while setting SMTP session")
                 //if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
@@ -310,7 +314,7 @@ final class database {
         imapSession.connectionType = MCOConnectionType.TLS
         imapSession.connectionLogger = {(connectionID, type, data) in
             print(type)
-            print(data)
+            print(data as Any)
             if data == nil {
                 print("Connection error while setting IMAP session")
                 //if NSString(data: data!, encoding: String.Encoding.utf8.rawValue) != nil{

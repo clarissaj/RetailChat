@@ -159,7 +159,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         else{
             filteredData.removeAll()
             isSearching = true
-            let textLength = searchText.characters.count
+            let textLength = searchText.count
             if textLength <= getMaxStringLengthInPRArray(){
                 let filteredPR = db.filterPR(searchText)
                 for pr in filteredPR{
@@ -176,8 +176,8 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     func getMaxStringLengthInPRArray() -> Int{
         var length = 0
         for element in db.getPRArray(){
-            if (element.product?.characters.count)! > length{
-                length = (element.product?.characters.count)!
+            if (element.product?.count)! > length{
+                length = (element.product?.count)!
             }
         }
         return length
