@@ -67,7 +67,7 @@ class MailsTableViewController: UITableViewController{
     }
     
     // Function that will delete a row from the table view and the datasource when in editing mode
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             // Delete from datasource
             db.deleteMail(atIndex: indexPath.row)
@@ -178,7 +178,7 @@ class MailsTableViewController: UITableViewController{
             // Gets the strings from the mail corresponding to the product and dc, stock them in the corresponding variables
             for match in matches {
                 for n in 0..<match.numberOfRanges {
-                    let range = match.rangeAt(n)
+                    let range = match.range(at: n)
                     let r = body!.index(body!.startIndex, offsetBy: range.location)..<body!.index(body!.startIndex, offsetBy: range.location+range.length)
                     print(body!.substring(with: r))
                     if n == 1{
