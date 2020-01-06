@@ -24,6 +24,7 @@
 		8AABA38D1FD889DE00F559DA /* MailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA38C1FD889DE00F559DA /* MailViewController.swift */; };
 		8AABA38F1FD88A3600F559DA /* PRTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */; };
 		8AD3DF681FDF4DC000AFAB8F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AD3DF671FDF4DC000AFAB8F /* CFNetwork.framework */; };
+		E95EB779BA8A41CE66E41122 /* libPods-RetailChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9FFA86D1511EFD903249446 /* libPods-RetailChat.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,7 @@
 		6BBE88721FE20BA1007CD2CE /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		6BBE88731FE20BA1007CD2CE /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6BCB2FD01FE29576000CCC9E /* Icons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Icons; sourceTree = "<group>"; };
+		839AE040C88DF486A5E89034 /* Pods-RetailChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RetailChat.debug.xcconfig"; path = "Target Support Files/Pods-RetailChat/Pods-RetailChat.debug.xcconfig"; sourceTree = "<group>"; };
 		8A280EAF1FD8A37000B57653 /* database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
 		8A36796B1FD8930500F0D286 /* MailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailsTableViewController.swift; sourceTree = "<group>"; };
 		8A36796F1FD893BD00F0D286 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -113,6 +115,8 @@
 		8AABA38C1FD889DE00F559DA /* MailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailViewController.swift; sourceTree = "<group>"; };
 		8AABA38E1FD88A3600F559DA /* PRTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PRTableViewController.swift; sourceTree = "<group>"; };
 		8AD3DF671FDF4DC000AFAB8F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		C9FFA86D1511EFD903249446 /* libPods-RetailChat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RetailChat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1E4AFF478EF29A22DD2DB41 /* Pods-RetailChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RetailChat.release.xcconfig"; path = "Target Support Files/Pods-RetailChat/Pods-RetailChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +126,7 @@
 			files = (
 				3F1C1BCB1FDF957F0053FFB8 /* libMailCore-ios.a in Frameworks */,
 				8AD3DF681FDF4DC000AFAB8F /* CFNetwork.framework in Frameworks */,
+				E95EB779BA8A41CE66E41122 /* libPods-RetailChat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +148,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5BD4534011BD86FDD739D4D0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				839AE040C88DF486A5E89034 /* Pods-RetailChat.debug.xcconfig */,
+				E1E4AFF478EF29A22DD2DB41 /* Pods-RetailChat.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		8AABA36B1FD8888900F559DA = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +165,7 @@
 				8AABA3751FD8888900F559DA /* Products */,
 				8AD3DF661FDF4DC000AFAB8F /* Frameworks */,
 				3F1C1BCC1FDF96060053FFB8 /* RetailChat-Bridging-Header.h */,
+				5BD4534011BD86FDD739D4D0 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -189,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				8AD3DF671FDF4DC000AFAB8F /* CFNetwork.framework */,
+				C9FFA86D1511EFD903249446 /* libPods-RetailChat.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -204,8 +220,6 @@
 				8AABA3701FD8888900F559DA /* Sources */,
 				8AABA3711FD8888900F559DA /* Frameworks */,
 				8AABA3721FD8888900F559DA /* Resources */,
-				3A8E552F3C5190AAEAD8F4A8 /* [CP] Embed Pods Frameworks */,
-				28856A3052708576D143BB6D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -229,7 +243,7 @@
 				TargetAttributes = {
 					8AABA3731FD8888900F559DA = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = D83APJ3N95;
+						DevelopmentTeam = 74BZ4T5NXU;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
@@ -333,50 +347,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		28856A3052708576D143BB6D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "";
-			showEnvVarsInLog = 0;
-		};
-		3A8E552F3C5190AAEAD8F4A8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "
-";
-			showEnvVarsInLog = 0;
-		};
 		8B46528A7BE92C63E62AF950 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RetailChat-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -527,12 +513,16 @@
 		};
 		8AABA38A1FD8888900F559DA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 839AE040C88DF486A5E89034 /* Pods-RetailChat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = D83APJ3N95;
-				HEADER_SEARCH_PATHS = "RetailChat-Bridging-Header.h";
+				DEVELOPMENT_TEAM = 74BZ4T5NXU;
+				HEADER_SEARCH_PATHS = (
+					"RetailChat-Bridging-Header.h",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = RetailChat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -547,6 +537,7 @@
 					"-lresolv",
 					"-stdlib=libc++",
 					"-ObjC",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "cis.fiu.Retail-Chat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -558,12 +549,16 @@
 		};
 		8AABA38B1FD8888900F559DA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E1E4AFF478EF29A22DD2DB41 /* Pods-RetailChat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LIBRARY = "libstdc++";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = D83APJ3N95;
-				HEADER_SEARCH_PATHS = "RetailChat-Bridging-Header.h";
+				DEVELOPMENT_TEAM = 74BZ4T5NXU;
+				HEADER_SEARCH_PATHS = (
+					"RetailChat-Bridging-Header.h",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = RetailChat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -578,6 +573,7 @@
 					"-lresolv",
 					"-stdlib=libc++",
 					"-ObjC",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "cis.fiu.Retail-Chat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
