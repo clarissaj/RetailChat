@@ -385,7 +385,6 @@
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-liconv",
-					"-ltidy",
 					"-lz",
 					"-lc++",
 					"-lresolv",
@@ -418,7 +417,6 @@
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-liconv",
-					"-ltidy",
 					"-lz",
 					"-lc++",
 					"-lresolv",

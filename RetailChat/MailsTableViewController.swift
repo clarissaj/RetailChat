@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 // Main class that shows received mails
 class MailsTableViewController: UITableViewController{
@@ -33,12 +34,18 @@ class MailsTableViewController: UITableViewController{
 
         // Checks the location of the user relatively to the work location, exit if they don't match
         
+        guard let locationManager = locationManager else { return }
+        let currentLocation = locationManager.getCoordinates()
+        print("***** coordinates: \(currentLocation)\n")
+        
         // If location != work location, alert and exit
-        if !((locationManager?.locationInBounds((locationManager?.getCoordinates())!))!){
-            present(locationAlert, animated: true)
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways {
+            if !locationManager.locationInBounds(currentLocation){
+                present(locationAlert, animated: true)
+            }
         }
         
-        locationManager?.stopUpdates()
+        locationManager.stopUpdates()
         // If we're here it means that we are at work, i.e. we can receive the emails
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
 
