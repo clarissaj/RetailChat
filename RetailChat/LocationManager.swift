@@ -47,12 +47,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         let lonDown = -80.38138456642628
         let lonUp = -80.3815334290266
         
-        if locValue.latitude <= latLeft && locValue.latitude >= latRight && locValue.longitude <= lonDown && locValue.longitude >= lonUp{
-            return true
-        }
-        else{
-            return false
-        }
+        return locValue.latitude <= latLeft && locValue.latitude >= latRight && locValue.longitude <= lonDown && locValue.longitude >= lonUp
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

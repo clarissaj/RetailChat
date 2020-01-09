@@ -139,7 +139,7 @@ class MailsTableViewController: UITableViewController{
                         builder.header.to = [message.header.from as MCOAddress]
                         builder.header.from = MCOAddress(displayName: self.db.getSmtpSession().username, mailbox: self.db.getSmtpSession().username)
                         builder.header.subject = "AUTO-GENERATED: Delivery confirmation"
-                        builder.textBody = "This message has been generated automatically, please do not answer.\n\nYour mail has successfully been delivered to his recipient.\n\nThank you for your attention."
+                        builder.textBody = "This message has been generated automatically, please do not answer.\n\nYour mail has successfully been delivered to this recipient.\n\nThank you for your attention."
                         
                         let rfc822Data = builder.data()
                         

@@ -21,8 +21,8 @@ class MailViewController: UIViewController{
     @IBOutlet weak var subjectLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
     
-    override func loadView() {
-        super.loadView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         //label border
         fromLabel.layer.cornerRadius = 5
