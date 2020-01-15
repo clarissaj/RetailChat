@@ -16,7 +16,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var pwField: UITextField!
     @IBOutlet var submitButton: UIButton!
     
-    let db = database.sharedInstance
+    let rcDataCache = RetailChatData.sharedInstance
     
     override func loadView() {
         super.loadView()
@@ -29,10 +29,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        db.getData()
-       // db.emptyInitialLogin()
-        if !db.credentialsIsEmpty() {
-            currentEmail.text = db.getUserCredentials(index: 0).email
+        rcDataCache.getData()
+       // rcDataCache.emptyInitialLogin()
+        if !rcDataCache.credentialsIsEmpty() {
+            currentEmail.text = rcDataCache.getUserCredentials(index: 0).email
         } else {
             //if empty disable tabs that require user to be logged in
             if let arrayOfTabBarItems = tabBarController?.tabBar.items as AnyObject as? NSArray,
@@ -46,7 +46,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func submitPressed(_ sender: UIButton) {
         if emailField.text != "" && pwField.text != "" {
-            db.emptyInitialLogin()
+            rcDataCache.emptyInitialLogin()
             
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             

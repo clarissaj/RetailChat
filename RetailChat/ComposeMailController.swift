@@ -15,12 +15,12 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var subjectField: UITextField!
     @IBOutlet weak var bodyField: UITextField!
     
-    let db = database.sharedInstance
+    let rcDataCache = RetailChatData.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        db.getData()
-        db.loadSmtpSession()
+        rcDataCache.getData()
+        rcDataCache.loadSmtpSession()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -41,12 +41,12 @@ class ComposeMailController: UIViewController, UITextFieldDelegate{
         }
         let builder = MCOMessageBuilder()
         builder.header.to = [MCOAddress(displayName: destField.text!, mailbox: destField.text!) as MCOAddress]
-        builder.header.from = MCOAddress(displayName: db.getSmtpSession().username, mailbox: db.getSmtpSession().username)
+        builder.header.from = MCOAddress(displayName: rcDataCache.getSmtpSession().username, mailbox: rcDataCache.getSmtpSession().username)
         builder.header.subject = subjectField.text!
         builder.textBody = bodyField.text!
         
-        let rfc822Data = builder.data()
-        let sendOperation = db.getSmtpSession().sendOperation(with: rfc822Data!)
+        let data = builder.data()
+        let sendOperation = rcDataCache.getSmtpSession().sendOperation(with: data!)
         sendOperation?.start { (error) -> Void in
             if (error != nil) {
                 print("Error sending email: \(String(describing: error))")

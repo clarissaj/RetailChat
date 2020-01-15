@@ -11,10 +11,7 @@ import UIKit
 // Class that shows the details of a specific mail
 class MailViewController: UIViewController{
 
-    var from: String?
-    var to: String?
-    var subject: String?
-    var body: String?
+    var mail: Mail?
     
     @IBOutlet weak var fromLabel: UILabel!
     @IBOutlet weak var toLabel: UILabel!
@@ -23,7 +20,39 @@ class MailViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupLabelsWithBorders()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupMail()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        clearLabelTextInNewMail()
+    }
+    
+    func clearLabelTextInNewMail() {
+        // Clears the text contained in the labels
+        fromLabel.text = ""
+        toLabel.text = ""
+        subjectLabel.text = ""
+        bodyLabel.text = ""
+    }
+    
+    func setupMail() {
+        if let mail = mail {
+            toLabel.text = mail.to
+            fromLabel.text = mail.from
+            subjectLabel.text = mail.subject
+            bodyLabel.text = mail.body
+        } else {
+            print("mail doesn't exist")
+        }
+    }
+    
+    func setupLabelsWithBorders() {
         //label border
         fromLabel.layer.cornerRadius = 5
         fromLabel.layer.borderWidth = 1
@@ -43,29 +72,5 @@ class MailViewController: UIViewController{
         bodyLabel.layer.cornerRadius = 5
         bodyLabel.layer.borderWidth = 1
         bodyLabel.layer.borderColor = UIColor.black.cgColor
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if let testFrom = from, let testTo = to,
-            let testSubject = subject, let testBody = body{
-            toLabel.text = testTo
-            fromLabel.text = testFrom
-            subjectLabel.text = testSubject
-            bodyLabel.text = testBody
-        } else {
-            print("fields empty?")
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Clears the text contained in the labels
-        fromLabel.text = ""
-        toLabel.text = ""
-        subjectLabel.text = ""
-        bodyLabel.text = ""
     }
 }

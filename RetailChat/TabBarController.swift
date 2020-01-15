@@ -10,12 +10,12 @@ import UIKit
 
 class TabBarController: UITabBarController{
     
-    let db = database.sharedInstance
+    let rcDataCache = RetailChatData.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if db.credentialsIsEmpty() {
+        if rcDataCache.credentialsIsEmpty() {
             self.selectedIndex = 3
         }
     }

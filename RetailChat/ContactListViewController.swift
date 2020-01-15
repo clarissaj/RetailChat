@@ -11,7 +11,7 @@ import UIKit
 // Class that accesses and displays to the list of all our contact's email address
 class ContactListViewController: UITableViewController {
     
-    let db = database.sharedInstance
+    let rcDataCache = RetailChatData.sharedInstance
     
     @IBAction func addContact(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Add Contact", message: nil, preferredStyle: .alert)
@@ -26,7 +26,7 @@ class ContactListViewController: UITableViewController {
             (action) -> Void in
             
             if let email = alert.textFields?.first?.text {
-                self.db.saveContact(email)
+                self.rcDataCache.saveContact(email)
                 self.tableView.reloadData()
             }
         }
@@ -41,20 +41,20 @@ class ContactListViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        db.getData()
+        rcDataCache.getData()
         tableView.reloadData()
     }
     
     // Function that gives the table view the number of rows to print, from the database containing the mails of each contact
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Returns the number of Contacts we have in the CoreData db
-        return db.getContactsCount()
+        // Returns the number of Contacts we have in CoreData
+        return rcDataCache.getContactsCount()
     }
     
     // Function that constructs the table view cells to display from the contact list fetched by CoreData
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactCell", for: indexPath)
-        cell.textLabel?.text = db.getContact(atIndex: indexPath.row).email
+        cell.textLabel?.text = rcDataCache.getContact(atIndex: indexPath.row).email
         return cell
     }
     
@@ -67,7 +67,7 @@ class ContactListViewController: UITableViewController {
                 if composeViewController.view == nil{
                     composeViewController.loadView()
                 }
-                composeViewController.destField.text = db.getContact(atIndex: row).email
+                composeViewController.destField.text = rcDataCache.getContact(atIndex: row).email
                 composeViewController.subjectField.text = ""
                 composeViewController.bodyField.text = ""
             }

@@ -12,7 +12,7 @@ import CoreLocation
 // Main class that shows received mails
 class MailsTableViewController: UITableViewController{
     
-    let db = database.sharedInstance
+    let rcDataCache = RetailChatData.sharedInstance
     // object that checks the location of the user to see if he's at work or not
     var locationManager : LocationManager?
     
@@ -31,15 +31,15 @@ class MailsTableViewController: UITableViewController{
         
         locationManager = LocationManager()
         locationAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in exit(0)}))
-
-        // Checks the location of the user relatively to the work location, exit if they don't match
         
         guard let locationManager = locationManager else { return }
-        let currentLocation = locationManager.getCoordinates()
-        print("***** coordinates: \(currentLocation)\n")
         
-        // If location != work location, alert and exit
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways {
+            // Checks the location of the user relatively to the work location, exit if they don't match
+            let currentLocation = locationManager.getCoordinates()
+            print("***** coordinates: \(currentLocation)\n")
+            
+            // If location != work location, alert and exit
             if !locationManager.locationInBounds(currentLocation){
                 present(locationAlert, animated: true)
             }
@@ -50,26 +50,26 @@ class MailsTableViewController: UITableViewController{
         mailAccountAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: {(_) in }))
 
 
-        db.loadImapConnection()
-        db.loadSmtpSession()
+        rcDataCache.loadImapConnection()
+        rcDataCache.loadSmtpSession()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getNewMails()
-        db.getData()
+        rcDataCache.getData()
         tableView.reloadData()
     }
     
     // Function that gives the table view the number of rows to print, from the database containing mails
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return db.getMailsCount()
+        return rcDataCache.getMailsCount()
     }
     
     // Function that constructs the table view cells to display
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
-        cell.textLabel?.text = db.getMail(atIndex: indexPath.row).subject
+        cell.textLabel?.text = rcDataCache.getMail(atIndex: indexPath.row).subject
         return cell
     }
     
@@ -77,7 +77,7 @@ class MailsTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             // Delete from datasource
-            db.deleteMail(atIndex: indexPath.row)
+            rcDataCache.deleteMail(atIndex: indexPath.row)
             
             // Delete from table view
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -94,12 +94,9 @@ class MailsTableViewController: UITableViewController{
         switch segue.identifier {
         case "showMail"?:
             if let row = tableView.indexPathForSelectedRow?.row{
-                let mailViewController = segue.destination as! MailViewController
-                let mail = db.getMail(atIndex: row)
-                mailViewController.from = mail.from
-                mailViewController.to = mail.to
-                mailViewController.subject = mail.subject
-                mailViewController.body = mail.body
+                let mailViewController = segue.destination as? MailViewController
+                let mailMO = rcDataCache.getMail(atIndex: row)
+                mailViewController?.mail = Mail(from: mailMO.from, to: mailMO.to, subject: mailMO.subject, body: mailMO.body)
             }
         case "newMail"?:
             let newMailController = segue.destination as! ComposeMailController
@@ -115,7 +112,7 @@ class MailsTableViewController: UITableViewController{
         uidSet.add(MCORange(location: 1, length: UINT64_MAX))
         
         let requestKind = MCOIMAPMessagesRequestKind.headers
-        let operation = db.getImapSession().fetchMessagesOperation(withFolder: "INBOX", requestKind: requestKind, uids: uidSet)
+        let operation = rcDataCache.getImapSession().fetchMessagesOperation(withFolder: "INBOX", requestKind: requestKind, uids: uidSet)
         
         operation?.start { (err, msg, vanished) -> Void in
             print("errors from server \(String(describing: err ?? nil))")
@@ -123,10 +120,10 @@ class MailsTableViewController: UITableViewController{
             let arrayOfMessages = msg as! [MCOIMAPMessage]
             var messageParser : MCOMessageParser?
             for message in arrayOfMessages{
-                let fetchBody = self.db.getImapSession().fetchMessageOperation(withFolder: "INBOX", uid: message.uid)
+                let fetchBody = self.rcDataCache.getImapSession().fetchMessageOperation(withFolder: "INBOX", uid: message.uid)
                 fetchBody?.start({(error: Error?, data: Data?) in
                     messageParser = MCOMessageParser(data: data!)
-                    let saved = self.db.saveMail(String(message.uid), message.header, messageParser!.plainTextBodyRendering()) // the header object contains all the fields in the header you need, next to it is the body
+                    let saved = self.rcDataCache.saveMail(String(message.uid), message.header, messageParser!.plainTextBodyRendering()) // the header object contains all the fields in the header you need, next to it is the body
                     self.tableView.reloadData()
                     //print((messageParser!.plainTextBodyRendering())!) // plain body text
                     
@@ -144,14 +141,14 @@ class MailsTableViewController: UITableViewController{
                     if saved && message.header.subject != "AUTO-GENERATED: Delivery confirmation"{
                         let builder = MCOMessageBuilder()
                         builder.header.to = [message.header.from as MCOAddress]
-                        builder.header.from = MCOAddress(displayName: self.db.getSmtpSession().username, mailbox: self.db.getSmtpSession().username)
+                        builder.header.from = MCOAddress(displayName: self.rcDataCache.getSmtpSession().username, mailbox: self.rcDataCache.getSmtpSession().username)
                         builder.header.subject = "AUTO-GENERATED: Delivery confirmation"
                         builder.textBody = "This message has been generated automatically, please do not answer.\n\nYour mail has successfully been delivered to this recipient.\n\nThank you for your attention."
                         
-                        let rfc822Data = builder.data()
+                        let data = builder.data()
                         
                         // Sends the mail
-                        let sendOperation = self.db.getSmtpSession().sendOperation(with: rfc822Data!)
+                        let sendOperation = self.rcDataCache.getSmtpSession().sendOperation(with: data!)
                         
                         sendOperation?.start { (error) -> Void in
                             if (error != nil) {
@@ -198,10 +195,10 @@ class MailsTableViewController: UITableViewController{
             }
             
             // By now we can use the previous variables and add an item to the list of the product requests tableview
-            if product != nil && dc != nil{
+            if let product = product, let dc = dc {
                 //let productRequestTab = self.tabBarController!.viewControllers![1] as! PRTableViewController
                 //productRequestTab.addNewItemFromMail(product,dc)
-                db.savePR(product, dc)
+                rcDataCache.saveProductRequest(product, dc)
             }
         }
         catch let error{

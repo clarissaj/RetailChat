@@ -12,7 +12,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     
     @IBOutlet weak var searchField: UISearchBar!
     
-    let db = database.sharedInstance
+    let rcDataCache = RetailChatData.sharedInstance
     var filteredData = [(product: String, dc: String)]()
     var isSearching = false
     
@@ -39,11 +39,11 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
             (action) -> Void in
             
             if let product = alert.textFields?[0].text, let dc = alert.textFields?[1].text {
-                self.db.savePR(product, dc)
+                self.rcDataCache.saveProductRequest(product, dc)
                 self.tableView.reloadData()
                 // Sends an email to everyone except this person to notify him of the product request
                 
-                let userEmailAddress : String = self.db.getSmtpSession().username
+                let userEmailAddress : String = self.rcDataCache.getSmtpSession().username
                 
                 // Get the list of all mail addresses from CoreData + remove email of current user
                 //var stringDestEmailAddresses = [String]()
@@ -51,7 +51,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 // Transform the destEmailAddresses array in an array of MCOAddress to send them the message
                 var recipientsMCOAddressArray = [MCOAddress]()
                 
-                for contact in self.db.getContacts(){
+                for contact in self.rcDataCache.getContacts(){
                     recipientsMCOAddressArray.append(MCOAddress(displayName: contact.email, mailbox: contact.email))
                 }
                 
@@ -71,7 +71,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
                 let rfc822Data = builder.data()
                 
                 // Send the mails
-                let sendOperation = self.db.getSmtpSession().sendOperation(with: rfc822Data!, from: MCOAddress(displayName: userEmailAddress, mailbox: userEmailAddress), recipients: recipientsMCOAddressArray)
+                let sendOperation = self.rcDataCache.getSmtpSession().sendOperation(with: rfc822Data!, from: MCOAddress(displayName: userEmailAddress, mailbox: userEmailAddress), recipients: recipientsMCOAddressArray)
                 
                 sendOperation?.start { (error) -> Void in
                     if (error != nil) {
@@ -93,7 +93,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        db.getData()
+        rcDataCache.getData()
         tableView.reloadData()
     }
     
@@ -103,10 +103,10 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         navigationItem.leftBarButtonItem = editButtonItem
         tableView.delegate = self
         tableView.dataSource = self
-        db.getData()
+        rcDataCache.getData()
         
         // Loads the SMTP session
-        db.loadSmtpSession()
+        rcDataCache.loadSmtpSession()
     }
     
     // Function that gives the table view the number of rows to print, from the database containing mails
@@ -114,7 +114,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         if isSearching{
             return filteredData.count
         }
-        return db.getPRCount()
+        return rcDataCache.getPRCount()
     }
     
     // Function that constructs the table view cells to display
@@ -127,7 +127,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         }
         else{
             // If we are not searching, loads data from the database
-            let productRequest = db.getPR(atIndex: indexPath.row)
+            let productRequest = rcDataCache.getPR(atIndex: indexPath.row)
             cell.textLabel?.text = productRequest.product
             cell.detailTextLabel?.text = "DC: " + productRequest.dc!
         }
@@ -139,7 +139,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
         
         if editingStyle == .delete {
             // Delete from datasource
-            db.deletePR(atIndex: indexPath.row)
+            rcDataCache.deleteProductRequest(atIndex: indexPath.row)
             
             // Delete from table view
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -161,7 +161,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
             isSearching = true
             let textLength = searchText.count
             if textLength <= getMaxStringLengthInPRArray(){
-                let filteredPR = db.filterPR(searchText)
+                let filteredPR = rcDataCache.filterProductRequests(searchText)
                 for pr in filteredPR{
                     filteredData.append((product: pr.product!, dc: pr.dc!))
                 }
@@ -175,7 +175,7 @@ class PRTableViewController: UITableViewController, UISearchBarDelegate{
     
     func getMaxStringLengthInPRArray() -> Int{
         var length = 0
-        for element in db.getPRArray(){
+        for element in rcDataCache.getProductRequests(){
             if (element.product?.count)! > length{
                 length = (element.product?.count)!
             }
