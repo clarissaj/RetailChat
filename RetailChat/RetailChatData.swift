@@ -209,9 +209,8 @@ final class RetailChatData {
         mail.to = mail.to?.replacingOccurrences(of: "<", with: "")
         mail.to = mail.to?.replacingOccurrences(of: ">", with: "")
         mail.from = headerFromArray.last
-        if let mailFrom = mail.from {
-            mail.from = String(mailFrom.dropLast())
-            mail.from = String(mailFrom.dropFirst())
+        if let mailFrom = mail.from?.dropLast() {
+            mail.from = String(String(mailFrom).dropFirst())
         }
         mail.subject = header.subject
         mail.messageID = uid
